@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest #v2.49.1
+    container_name: lyrics-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker-compose/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:latest #10.3.1
+    container_name: lyrics-grafana
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - ./docker-compose/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./docker-compose/grafana/dashboards:/etc/grafana/provisioning/dashboards
+
+  redis:
+    image: redis:latest #7.2.4
+    container_name: lyrics-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: /bin/sh -c "redis-server --requirepass $$REDIS_HOST_PASSWORD"
+    env_file:
+      - .env
+
+  mongo_db:
+    image: mongo:latest #
+    container_name: lyrics-mongo
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=$DB_USER_PASS
+      - MONGO_INITDB_DATABASE=usersdb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./docker-compose/db:/data/db
