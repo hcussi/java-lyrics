@@ -1,0 +1,8 @@
+# https://github.com/grafana/grafana/blob/main/devenv/datasources.yaml
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://lyrics-prometheus:9090
