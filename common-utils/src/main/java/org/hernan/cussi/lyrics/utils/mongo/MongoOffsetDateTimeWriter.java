@@ -1,4 +1,4 @@
-package org.hernan.cussi.lyrics.userservice.config;
+package org.hernan.cussi.lyrics.utils.mongo;
 
 import org.bson.Document;
 import org.springframework.core.convert.converter.Converter;

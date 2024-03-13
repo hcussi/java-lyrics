@@ -5,6 +5,7 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.hernan.cussi.lyrics.utils.aop.LoggerAspect;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -18,11 +19,7 @@ public class HandleRestRequestAspect extends LoggerAspect {
 
   @Before("handleAnnotationPointcut()")
   public void processBefore(JoinPoint joinPoint) {
-    var hasArgs = joinPoint.getArgs().length > 0;
-    var log = getLogger(joinPoint);
-    if (log.isInfoEnabled()) {
-      log.info(STR."REST method: \{joinPoint.getSignature().getName()}" + (hasArgs ? STR." called with: \{joinPoint.getArgs()[0]}" : ""));
-    }
+    log(joinPoint.getTarget().getClass(), joinPoint.getArgs(), joinPoint.getSignature().getName());
   }
 
   @AfterThrowing(value = "handleAnnotationPointcut()", throwing = "error")

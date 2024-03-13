@@ -1,12 +1,12 @@
 package com.hernan.cusi.lyrics.userservice.controller;
 
-import com.hernan.cusi.lyrics.userservice.util.PaginationUtil;
 import org.hernan.cussi.lyrics.userservice.LyricsUserServiceApplication;
 import org.hernan.cussi.lyrics.userservice.business.UserBusiness;
 import org.hernan.cussi.lyrics.userservice.controller.UserControllerImpl;
 import org.hernan.cussi.lyrics.userservice.input.UserInput;
 import org.hernan.cussi.lyrics.userservice.model.User;
 import org.hernan.cussi.lyrics.userservice.repository.UserRepository;
+import org.hernan.cussi.lyrics.utils.test.PaginationUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

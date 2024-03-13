@@ -1,11 +1,11 @@
 package com.hernan.cusi.lyrics.userservice.business;
 
-import com.hernan.cusi.lyrics.userservice.util.PaginationUtil;
 import org.hernan.cussi.lyrics.userservice.business.UserBusiness;
 import org.hernan.cussi.lyrics.userservice.exception.UserNotFoundException;
 import org.hernan.cussi.lyrics.userservice.input.UserInput;
 import org.hernan.cussi.lyrics.userservice.model.User;
 import org.hernan.cussi.lyrics.userservice.repository.UserRepository;
+import org.hernan.cussi.lyrics.utils.test.PaginationUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

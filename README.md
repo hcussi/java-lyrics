@@ -23,11 +23,43 @@ Will run the test task for all projects
 
 * Oracle JDK 21 with preview features
 * Spring Boot v3 (Spring Framework v6)
+* Spring Cloud
+  * Sleuth (tracing)
 * Docker Compose
   * Prometheus
   * Grafana
   * Redis
   * Kafka
+
+### Application Architecture
+
+#### Api Gateway microservice
+
+WIP
+
+#### User microservice
+
+Will provide the functionality to CRUD users. Check the particular `README.md` for more info.
+
+#### Lyrics microservice
+
+WIP
+
+#### Authorization microservice
+
+WIP
+
+#### Monitor microservice
+
+WIP
+
+#### Logging microservice
+
+WIP
+
+### Common Utils library
+
+Contains common and utility classes to be used across different services.
 
 ### AOP
 

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hernan.cussi.lyrics.utils.mongo.model.AbstractModelObject;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serial;

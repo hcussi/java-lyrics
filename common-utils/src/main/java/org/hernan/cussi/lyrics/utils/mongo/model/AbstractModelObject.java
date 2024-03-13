@@ -1,4 +1,4 @@
-package org.hernan.cussi.lyrics.userservice.model;
+package org.hernan.cussi.lyrics.utils.mongo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

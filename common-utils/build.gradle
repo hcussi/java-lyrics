@@ -1,0 +1,20 @@
+ext {
+
+}
+
+dependencies {
+
+    implementation "org.springframework.boot:spring-boot-starter-data-mongodb:$mongoVersion"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

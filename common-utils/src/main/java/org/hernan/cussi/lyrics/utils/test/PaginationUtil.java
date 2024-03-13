@@ -2,7 +2,7 @@
 * From https://vbmendes.medium.com/pagination-for-a-list-with-spring-pageable-26423455d0d3
 */
 
-package com.hernan.cusi.lyrics.userservice.util;
+package org.hernan.cussi.lyrics.utils.test;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
