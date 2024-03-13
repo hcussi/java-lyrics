@@ -5,7 +5,7 @@ Rename the `.env.example` file to be `.env`.
 
 ### Run Application
 
-Each subproject can be run independently, check README.md for each of those.
+Each subproject can be run independently, check `README.md` for each of those.
 
 ```bash
 ./gradlew :subproject:bootRun
@@ -23,15 +23,21 @@ Will run the test task for all projects
 
 * Oracle JDK 21 with preview features
 * Spring Boot v3 (Spring Framework v6)
-* Spring Cloud
+* Spring Cloud (Using 2023.x compatible with Spring Boot 3.2.x)
 * Micrometer tracing (Zipkin)
 * Docker Compose
   * Prometheus
   * Grafana
   * Redis
+  * Zipkin
   * Kafka
 
 ### Application Architecture
+
+Create docker images for each microservice:
+  - [Building a Spring Boot microservices monorepo project with docker-compose](https://marceloh-web.medium.com/deploy-spring-boot-microservices-monorepo-project-with-docker-compose-ae4abbe8d2b4)
+  - [Docker Compose: MongoDB and Spring Boot example](https://www.bezkoder.com/mongodb-docker-compose-spring-boot/)
+  - [Get started with Spring Boot, MongoDB and Docker Compose](https://sfmohassel.medium.com/get-started-with-spring-boot-mongodb-and-docker-compose-cfae8283ed1b)
 
 #### Api Gateway microservice
 
