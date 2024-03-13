@@ -24,7 +24,7 @@ Will run the test task for all projects
 * Oracle JDK 21 with preview features
 * Spring Boot v3 (Spring Framework v6)
 * Spring Cloud
-  * Sleuth (tracing)
+* Micrometer tracing (Zipkin)
 * Docker Compose
   * Prometheus
   * Grafana
@@ -70,7 +70,7 @@ It is used for the following cases:
 
 ### Docker Compose
 
-In order to collect metrics with Prometheus and use Grafana dashboard, use Redis for api rate limit and Mongo DB as storage system; execute the following command:
+In order to collect metrics with Prometheus and use Grafana dashboard, use Redis for api rate limit and Mongo DB as storage system and Zipkin for tracing; execute the following command:
 
 ```bash
 docker-compose -f docker-compose-lyrics.yml up -d 
@@ -99,6 +99,13 @@ Will be used for API rate limiting.
 ### Mongo DB
 
 Will be used with users and lyrics collections.
+
+### Zipkin
+
+Visit [http://localhost:9411/zipkin](http://localhost:9411/zipkin), no login credentials are required.
+More info 
+- [https://github.com/openzipkin/zipkin/tree/master/zipkin-server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server).
+- https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.micrometer-tracing
 
 #### Kafka
 

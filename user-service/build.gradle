@@ -18,7 +18,10 @@ dependencies {
 
     implementation "org.springframework.security:spring-security-crypto:$cryptoVersion"
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    // bridges the Micrometer Observation API to OpenTelemetry
+    implementation 'io.micrometer:micrometer-tracing-bridge-otel'
+    // reports traces to Zipkin.
+    implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'
 
     implementation project(':common-utils')
 }
