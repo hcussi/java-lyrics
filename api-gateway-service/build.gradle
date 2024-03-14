@@ -14,6 +14,8 @@ dependencies {
     // reports traces to Zipkin.
     implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'
 
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
     testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
 
     implementation project(':common-utils')

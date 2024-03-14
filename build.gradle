@@ -68,6 +68,10 @@ subprojects {
 		useJUnitPlatform()
 	}
 
+	springBoot {
+		buildInfo()
+	}
+
 	tasks.withType(JavaCompile) {
 		configure(options) {
 			options.compilerArgs << '--enable-preview' << '-Xlint:preview'
