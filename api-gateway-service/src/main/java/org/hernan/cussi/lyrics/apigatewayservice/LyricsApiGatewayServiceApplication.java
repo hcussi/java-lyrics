@@ -15,6 +15,7 @@ import org.springframework.cloud.client.circuitbreaker.Customizer;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -61,23 +62,31 @@ public class LyricsApiGatewayServiceApplication {
 			.route(r -> r.path("/api/users")
 				// .filters(f -> f.addRequestHeader("Hello", "World"))
 				// .filters(f -> f.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter())))
+				// .filters(f -> f.retry(config -> config.setRetries(3).setMethods(HttpMethod.POST, HttpMethod.GET)))
 				.filters(f -> f
 					.rewritePath("/api/users", "/api/v1/users")
 					.circuitBreaker(c -> c.setName("user-service-circuit-breaker").setFallbackUri("forward:/fallback"))
+					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
 				)
 				.uri(uriConfiguration.getUserServiceEndpoint()))
 			.route(r -> r.path( false, "/api/users/**")
 				.filters(f -> f
 					.rewritePath("/api/users/(?<suburl>.*)", "/api/v1/users/${suburl}")
 					.circuitBreaker(c -> c.setName("user-service-circuit-breaker").setFallbackUri("forward:/fallback"))
+					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
 				)
 				.uri(uriConfiguration.getUserServiceEndpoint()))
 			/* Lyrics API */
 			.route(r -> r.path("/api/lyrics")
-				.filters(f -> f.circuitBreaker(c -> c.setName("lyrics-service-circuit-breaker").setFallbackUri("forward:/notImplemented")))
-				.uri(uriConfiguration.getLyricsServiceEndpoint()))
+				.filters(f -> f
+					.circuitBreaker(c -> c.setName("lyrics-service-circuit-breaker").setFallbackUri("forward:/notImplemented"))
+					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
+				).uri(uriConfiguration.getLyricsServiceEndpoint()))
 			.route(r -> r.path(false, "/api/lyrics/**")
-				.filters(f -> f.circuitBreaker(c -> c.setName("lyrics-service-circuit-breaker").setFallbackUri("forward:/notImplemented")))
+				.filters(f -> f
+					.circuitBreaker(c -> c.setName("lyrics-service-circuit-breaker").setFallbackUri("forward:/notImplemented"))
+					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
+				)
 				.uri(uriConfiguration.getLyricsServiceEndpoint()))
 			.build();
 	}
