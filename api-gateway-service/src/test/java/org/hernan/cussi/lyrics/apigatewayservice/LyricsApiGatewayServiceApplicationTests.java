@@ -44,7 +44,7 @@ class LyricsApiGatewayServiceApplicationTests {
 
 		webClient
 			.get()
-			.uri("/api/v1/users")
+			.uri("/api/users")
 			.exchange()
 			.expectStatus().isOk()
 		  .expectBody().json(usersJson);
@@ -65,7 +65,7 @@ class LyricsApiGatewayServiceApplicationTests {
 
 		webClient
 			.get()
-			.uri("/api/v1/users/65f0b078ab5d7e2f44eda463")
+			.uri("/api/users/65f0b078ab5d7e2f44eda463")
 			.exchange()
 			.expectStatus().isOk()
 			.expectBody().json(userJson);
