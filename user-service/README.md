@@ -1,4 +1,4 @@
-### Run Application
+## Run Application
 
 ```bash
 ./gradlew :user-service:clean :user-service:build :user-service:bootRun
@@ -8,7 +8,7 @@ This will expose the REST endpoints available. Go to [http://localhost:8081/api/
 Also, can check [http://localhost:8081/api/docs](http://localhost:8081/api/docs) to see Open API config JSON.
 Use the basic auth credentials set in the `.env` file.
 
-### Test Application
+## Test Application
 
 ```bash
 ./gradlew :user-service:test
@@ -23,7 +23,7 @@ Use the basic auth credentials set in the `.env` file.
   * Spring AOP
   * Spring Docs (OpenAPI 3.0)
 
-# MongoDb
+### MongoDb
 
 Create DB `usersdb` and `users` collections using Mongo Compass UI.
 Create user for the DB.
@@ -33,6 +33,7 @@ docker exec -it lyrics-mongo bash
 ```
 
 ```bash
+mongosh -u admin
 use usersdb;
 db.createUser({user: "lyricsUser", pwd: "s3c3rTpaZZ", roles : [{role: "readWrite", db: "usersdb"}]});
 ```

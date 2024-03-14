@@ -18,6 +18,7 @@ dependencies {
 
     implementation "org.springframework.security:spring-security-crypto:$cryptoVersion"
 
+    implementation 'io.micrometer:micrometer-registry-prometheus'
     // bridges the Micrometer Observation API to OpenTelemetry
     implementation 'io.micrometer:micrometer-tracing-bridge-otel'
     // reports traces to Zipkin.

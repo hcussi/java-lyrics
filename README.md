@@ -3,7 +3,7 @@
 Clone the repository and setup JDK 21 locally, using `sdkman` is a good alternative.
 Rename the `.env.example` file to be `.env`.
 
-### Run Application
+## Run Application
 
 Each subproject can be run independently, check `README.md` for each of those.
 
@@ -11,7 +11,7 @@ Each subproject can be run independently, check `README.md` for each of those.
 ./gradlew :subproject:bootRun
 ```
 
-### Test Application
+## Test Application
 
 Will run the test task for all projects
 
@@ -113,7 +113,7 @@ More info
 - [https://github.com/openzipkin/zipkin/tree/master/zipkin-server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server).
 - https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.micrometer-tracing
 
-#### Kafka
+### Kafka
 
 Will be used for async event driven communication.
 

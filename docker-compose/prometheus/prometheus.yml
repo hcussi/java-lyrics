@@ -15,10 +15,8 @@ scrape_configs:
     static_configs:
       - targets: [
         'host.docker.internal:8080', # api-gateway
-        'host.docker.internal:8081', # authentication
-        'host.docker.internal:8083', # lyrics
-        'host.docker.internal:8084' # logging
+        'host.docker.internal:8081' # user-service
       ]
-    basic_auth:
-      username: admin
-      password: pass
+    # basic_auth:
+    #  username: admin
+    #  password: pass

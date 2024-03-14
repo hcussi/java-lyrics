@@ -2,7 +2,10 @@ package org.hernan.cussi.lyrics.apigatewayservice;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
+import io.micrometer.observation.ObservationFilter;
+import io.micrometer.tracing.exporter.SpanExportingPredicate;
 import io.netty.resolver.DefaultAddressResolverGroup;
+import org.hernan.cussi.lyrics.utils.telemetry.TelemetryUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -38,8 +41,8 @@ public class LyricsApiGatewayServiceApplication {
 		return factory -> factory.configureDefault(id -> new Resilience4JConfigBuilder(id)
 			.circuitBreakerConfig(
 				CircuitBreakerConfig.custom()
-					.failureRateThreshold(50)
-					.slidingWindowSize(20)
+					.failureRateThreshold(50) // 50%
+					.slidingWindowSize(20)  // last 20 requests
 					.minimumNumberOfCalls(10)
 					.waitDurationInOpenState(Duration.ofSeconds(10))
 					.build()
@@ -87,6 +90,16 @@ public class LyricsApiGatewayServiceApplication {
 	@RequestMapping("/fallback")
 	public Mono<String> fallback() {
 		return Mono.just("fallback");
+	}
+
+	@Bean
+	ObservationFilter urlObservationFilter() {
+		return TelemetryUtils.urlObservationFilter();
+	}
+
+	@Bean
+	SpanExportingPredicate actuatorSpanExportingPredicate() {
+		return TelemetryUtils.actuatorSpanExportingPredicate();
 	}
 
 }

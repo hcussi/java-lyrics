@@ -1,7 +1,10 @@
 package org.hernan.cussi.lyrics.userservice;
 
+import io.micrometer.observation.ObservationFilter;
+import io.micrometer.tracing.exporter.SpanExportingPredicate;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
+import org.hernan.cussi.lyrics.utils.telemetry.TelemetryUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +38,16 @@ public class LyricsUserServiceApplication {
 	@Bean
 	public PasswordEncoder delegatingPasswordEncoder() {
 		return new BCryptPasswordEncoder(PASS_STRENGTH, new SecureRandom());
+	}
+
+	@Bean
+	ObservationFilter urlObservationFilter() {
+		return TelemetryUtils.urlObservationFilter();
+	}
+
+	@Bean
+	SpanExportingPredicate actuatorSpanExportingPredicate() {
+		return TelemetryUtils.actuatorSpanExportingPredicate();
 	}
 
 }
