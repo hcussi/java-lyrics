@@ -63,21 +63,21 @@ public class LyricsApiGatewayServiceApplication {
 				// .filters(f -> f.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter())))
 				.filters(f -> f
 					.rewritePath("/api/users", "/api/v1/users")
-					.circuitBreaker(c -> c.setName("appCircuitBreaker").setFallbackUri("forward:/fallback"))
+					.circuitBreaker(c -> c.setName("user-service-circuit-breaker").setFallbackUri("forward:/fallback"))
 				)
 				.uri(uriConfiguration.getUserServiceEndpoint()))
 			.route(r -> r.path( false, "/api/users/**")
 				.filters(f -> f
 					.rewritePath("/api/users/(?<suburl>.*)", "/api/v1/users/${suburl}")
-					.circuitBreaker(c -> c.setName("appCircuitBreaker").setFallbackUri("forward:/fallback"))
+					.circuitBreaker(c -> c.setName("user-service-circuit-breaker").setFallbackUri("forward:/fallback"))
 				)
 				.uri(uriConfiguration.getUserServiceEndpoint()))
 			/* Lyrics API */
 			.route(r -> r.path("/api/lyrics")
-				.filters(f -> f.circuitBreaker(c -> c.setName("appCircuitBreaker").setFallbackUri("forward:/notImplemented")))
+				.filters(f -> f.circuitBreaker(c -> c.setName("lyrics-service-circuit-breaker").setFallbackUri("forward:/notImplemented")))
 				.uri(uriConfiguration.getLyricsServiceEndpoint()))
 			.route(r -> r.path(false, "/api/lyrics/**")
-				.filters(f -> f.circuitBreaker(c -> c.setName("appCircuitBreaker").setFallbackUri("forward:/notImplemented")))
+				.filters(f -> f.circuitBreaker(c -> c.setName("lyrics-service-circuit-breaker").setFallbackUri("forward:/notImplemented")))
 				.uri(uriConfiguration.getLyricsServiceEndpoint()))
 			.build();
 	}

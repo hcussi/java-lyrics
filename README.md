@@ -41,7 +41,7 @@ Create docker images for each microservice:
 
 #### Api Gateway microservice
 
-WIP
+Contains the routes to redirect to users and lyrics service.
 
 #### User microservice
 
@@ -55,14 +55,6 @@ WIP
 
 WIP
 
-#### Monitor microservice
-
-WIP
-
-#### Logging microservice
-
-WIP
-
 ### Common Utils library
 
 Contains common and utility classes to be used across different services.
@@ -72,7 +64,6 @@ Contains common and utility classes to be used across different services.
 It is used for the following cases:
 * Logging REST request and params.
 * Logging unexpected exceptions in services.
-* Endpoints telemetry.
 
 ### Docker Compose
 
@@ -98,6 +89,13 @@ Visit [http://localhost:9090](http://localhost:9090), no login credentials are r
 A default datasource and dashboard has been provided in order to check the different metrics collected by Prometheus.
 Visit [http://localhost:3000/login](http://localhost:3000/login) and login with default credentials `admin/admin`.
 
+#### Zipkin
+
+Visit [http://localhost:9411/zipkin](http://localhost:9411/zipkin), no login credentials are required.
+More info
+- [https://github.com/openzipkin/zipkin/tree/master/zipkin-server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server).
+- https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.micrometer-tracing
+
 ### Redis
 
 Will be used for API rate limiting.
@@ -105,13 +103,6 @@ Will be used for API rate limiting.
 ### Mongo DB
 
 Will be used with users and lyrics collections.
-
-### Zipkin
-
-Visit [http://localhost:9411/zipkin](http://localhost:9411/zipkin), no login credentials are required.
-More info 
-- [https://github.com/openzipkin/zipkin/tree/master/zipkin-server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server).
-- https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.micrometer-tracing
 
 ### Kafka
 
