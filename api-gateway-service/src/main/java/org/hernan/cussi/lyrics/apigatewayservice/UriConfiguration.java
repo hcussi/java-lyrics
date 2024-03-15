@@ -11,5 +11,6 @@ public class UriConfiguration {
 
   private String userServiceEndpoint = "http://localhost:8081";
   private String lyricsServiceEndpoint = "http://localhost:8083";
+  private String authenticationServiceEndpoint = "http://localhost:8085";
 
 }

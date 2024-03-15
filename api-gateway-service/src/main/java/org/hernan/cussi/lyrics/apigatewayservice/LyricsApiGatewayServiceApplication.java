@@ -94,22 +94,26 @@ public class LyricsApiGatewayServiceApplication {
 					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
 				)
 				.uri(uriConfiguration.getUserServiceEndpoint()))
-			.route(r -> r.path("/user-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://user-service"))
+			.route(r -> r.path("/user-service/v3/api-docs").and().method(HttpMethod.GET)
+				.uri("lb://user-service"))
 			/* Lyrics API */
 			.route(r -> r.path("/api/lyrics")
 				.filters(f -> f
 					.circuitBreaker(c -> c.setName("lyrics-service-circuit-breaker").setFallbackUri("forward:/notImplemented"))
 					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
-				).uri(uriConfiguration.getLyricsServiceEndpoint()))
+				)
+				.uri(uriConfiguration.getLyricsServiceEndpoint()))
 			.route(r -> r.path(false, "/api/lyrics/**")
 				.filters(f -> f
 					.circuitBreaker(c -> c.setName("lyrics-service-circuit-breaker").setFallbackUri("forward:/notImplemented"))
 					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
 				)
 				.uri(uriConfiguration.getLyricsServiceEndpoint()))
-			.route(r -> r.path("/lyrics-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://lyrics-service"))
+			.route(r -> r.path("/lyrics-service/v3/api-docs").and().method(HttpMethod.GET)
+				.uri("lb://lyrics-service"))
 			/* Authentication API */
-			.route(r -> r.path("/authentication-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://authentication-service"))
+			.route(r -> r.path("/authentication-service/v3/api-docs").and().method(HttpMethod.GET)
+				.uri("lb://authentication-service"))
 			.build();
 	}
 

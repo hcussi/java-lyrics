@@ -39,6 +39,10 @@ Create docker images for each microservice:
   - [Docker Compose: MongoDB and Spring Boot example](https://www.bezkoder.com/mongodb-docker-compose-spring-boot/)
   - [Get started with Spring Boot, MongoDB and Docker Compose](https://sfmohassel.medium.com/get-started-with-spring-boot-mongodb-and-docker-compose-cfae8283ed1b)
 
+#### Discovery Server
+
+Eureka server that allow microservices to self discover.
+
 #### Api Gateway microservice
 
 Contains the routes to redirect to users and lyrics service.

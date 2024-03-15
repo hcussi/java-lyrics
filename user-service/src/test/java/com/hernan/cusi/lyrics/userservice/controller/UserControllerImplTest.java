@@ -45,9 +45,6 @@ public class UserControllerImplTest {
 	private MockMvc mockMvc;
 
 	@MockBean
-	private UserRepository userRepository;
-
-	@MockBean
 	private UserBusiness userBusiness;
 
 	@InjectMocks

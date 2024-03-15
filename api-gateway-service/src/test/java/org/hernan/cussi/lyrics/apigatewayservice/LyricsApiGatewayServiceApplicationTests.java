@@ -15,7 +15,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 	webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
 	properties = {
 		"userServiceEndpoint=http://localhost:${wiremock.server.port}",
-		"lyricsServiceEndpoint=http://localhost:${wiremock.server.port}"
+		"lyricsServiceEndpoint=http://localhost:${wiremock.server.port}",
+		"authenticationServiceEndpoint=http://localhost:${wiremock.server.port}"
 	}
 )
 @AutoConfigureWireMock(port = 0)
