@@ -29,3 +29,4 @@ Also, can check [http://localhost:8080/v3/api-docs/swagger-config](http://localh
  
 More info:
 - [Getting Started with Spring Cloud Gateway — Part One](https://medium.com/@jayaramanan.kumar/getting-started-with-spring-cloud-gateway-part-one-c2177b32d01d)
+- [Microservices with Spring Boot 3 and Spring Cloud](https://piotrminkowski.com/2023/03/13/microservices-with-spring-boot-3-and-spring-cloud/)

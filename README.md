@@ -95,6 +95,7 @@ Visit [http://localhost:3000/login](http://localhost:3000/login) and login with 
 
 #### Zipkin
 
+Will be used for distributed tracing.
 Visit [http://localhost:9411/zipkin](http://localhost:9411/zipkin), no login credentials are required.
 More info
 - [https://github.com/openzipkin/zipkin/tree/master/zipkin-server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server).

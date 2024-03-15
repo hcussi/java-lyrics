@@ -1,5 +1,6 @@
 package org.hernan.cussi.lyrics.userservice.business;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hernan.cussi.lyrics.userservice.exception.UserNotFoundException;
 import org.hernan.cussi.lyrics.userservice.input.UserInput;
 import org.hernan.cussi.lyrics.userservice.model.User;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class UserBusiness {
 
   private final UserRepository userRepository;
@@ -26,6 +28,7 @@ public class UserBusiness {
 
   public User createUser(final UserInput userInput) {
     var user = userInput.build(passwordEncoder.encode(userInput.getPassword()));
+    log.info("Creating new user {}", user);
     return this.userRepository.save(user);
   }
 
@@ -33,15 +36,18 @@ public class UserBusiness {
     var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     user.setName(userInput.getName());
     user.setEmail(userInput.getEmail());
+    log.info("Updating new user {}", user);
     return this.userRepository.save(user);
   }
 
   public void deleteUser(final String userId) throws UserNotFoundException {
     var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+    log.info("Deleting user {}", user);
     this.userRepository.delete(user);
   }
 
   public User getUser(final String userId) throws UserNotFoundException {
+    log.info("Getting user {}", userId);
     return this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
   }
 
@@ -60,6 +66,7 @@ public class UserBusiness {
       // with sorting
       pageable = PageRequest.of(pageNumberValue, pageSizeValue, Sort.Direction.ASC, sort);
     }
+    log.info("Getting users {}", pageable);
     return userRepository.findAll(pageable);
   }
 }

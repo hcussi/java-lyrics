@@ -9,6 +9,7 @@ ext {
 	docApiVersion = '2.3.0'
 	mongoVersion = '3.2.3'
 	springCloudVersion = '2023.0.0'
+	logbackEncoderVersion = '7.4'
 }
 
 allprojects {
@@ -59,6 +60,8 @@ subprojects {
 
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
+
+		implementation "net.logstash.logback:logstash-logback-encoder:$logbackEncoderVersion"
 
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	}
