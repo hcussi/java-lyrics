@@ -50,7 +50,10 @@ services:
     # Environment settings are defined here https://github.com/openzipkin/zipkin/blob/master/zipkin-server/README.md#environment-variables
     environment:
       - STORAGE_TYPE=mem
+      - DISCOVERY_EUREKA_ENABLED=true
+      - EUREKA_APP_NAME=lyrics-zipkin
+      - EUREKA_HOSTNAME=lyrics-zipkin
       # https://github.com/openzipkin/zipkin/blob/master/zipkin-server/README.md#service-registration
-      # - EUREKA_SERVICE_URL=http://localhost:8080/eureka/v2     https://myuser:mypassword@1.1.3.1/eureka/v2/ basic auth
+      - EUREKA_SERVICE_URL=http://$EUREKA_USER_NAME:$EUREKA_USER_PASS@host.docker.internal:8761/eureka/v2
     ports:
       - "9411:9411"

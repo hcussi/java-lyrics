@@ -41,7 +41,7 @@ Create docker images for each microservice:
 
 #### Discovery Server
 
-Eureka server that allow microservices to self discover.
+Eureka server that allow microservices to self discover, basic auth set for connection.
 
 #### Api Gateway microservice
 
@@ -74,7 +74,7 @@ It is used for the following cases:
 In order to collect metrics with Prometheus and use Grafana dashboard, use Redis for api rate limit and Mongo DB as storage system and Zipkin for tracing; execute the following command:
 
 ```bash
-docker-compose -f docker-compose-lyrics.yml up -d 
+docker-compose -f docker-compose-lyrics.yml up -d
 ```
 
 ### Telemetry
