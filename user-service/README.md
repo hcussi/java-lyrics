@@ -4,9 +4,8 @@
 ./gradlew :user-service:clean :user-service:build :user-service:bootRun
 ```
 
-This will expose the REST endpoints available. Go to [http://localhost:8081/api/docs/swagger-ui](http://localhost:8081/api/docs/swagger-ui) to see the corresponding API docs (OpenAPI 3.0). 
-Also, can check [http://localhost:8081/api/docs](http://localhost:8081/api/docs) to see Open API config JSON.
-Use the basic auth credentials set in the `.env` file.
+This will expose the REST endpoints available. Go to [http://localhost:8081/user-service/swagger-ui.html](http://localhost:8081/user-service/swagger-ui.html) to see the corresponding API docs (OpenAPI 3.0). 
+Also, can check [http://localhost:8081/user-service/v3/api-docs](http://localhost:8081/user-service/v3/api-docs) to see Open API config JSON.
 
 ## Test Application
 

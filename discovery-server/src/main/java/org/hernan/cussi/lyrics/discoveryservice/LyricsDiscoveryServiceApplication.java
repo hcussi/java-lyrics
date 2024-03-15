@@ -1,5 +1,8 @@
 package org.hernan.cussi.lyrics.discoveryservice;
 
+import io.micrometer.observation.ObservationFilter;
+import io.micrometer.tracing.exporter.SpanExportingPredicate;
+import org.hernan.cussi.lyrics.utils.telemetry.TelemetryUtils;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.actuate.health.HealthEndpoint;
@@ -35,6 +38,16 @@ public class LyricsDiscoveryServiceApplication {
 			.httpBasic(withDefaults())
 			.csrf(AbstractHttpConfigurer::disable);
 		return http.build();
+	}
+
+	@Bean
+	ObservationFilter urlObservationFilter() {
+		return TelemetryUtils.urlObservationFilter();
+	}
+
+	@Bean
+	SpanExportingPredicate actuatorSpanExportingPredicate() {
+		return TelemetryUtils.actuatorSpanExportingPredicate();
 	}
 
 }

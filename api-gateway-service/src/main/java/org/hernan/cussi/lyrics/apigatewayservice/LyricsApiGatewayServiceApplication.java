@@ -5,6 +5,9 @@ import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 import io.micrometer.observation.ObservationFilter;
 import io.micrometer.tracing.exporter.SpanExportingPredicate;
 import io.netty.resolver.DefaultAddressResolverGroup;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.hernan.cussi.lyrics.utils.telemetry.TelemetryUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,6 +26,13 @@ import reactor.netty.http.client.HttpClient;
 
 import java.time.Duration;
 
+@OpenAPIDefinition(
+	info = @Info(
+		title = "API Gateway",
+		version = "1.0",
+		description = "Documentation API Gateway v1.0"
+	)
+)
 @SpringBootApplication
 @RestController
 @EnableConfigurationProperties(UriConfiguration.class)
@@ -36,6 +46,14 @@ public class LyricsApiGatewayServiceApplication {
 	public HttpClient httpClient() {
 		return HttpClient.create().resolver(DefaultAddressResolverGroup.INSTANCE);
 	}
+
+	/*@Autowired
+	private EurekaClient discoveryClient;
+
+	public String serviceUrl() {
+		InstanceInfo instance = discoveryClient.getNextServerFromEureka("STORES", false);
+		return instance.getHomePageUrl();
+	}*/
 
 	@Bean
 	public Customizer<ReactiveResilience4JCircuitBreakerFactory> defaultCustomizer() {
@@ -76,6 +94,7 @@ public class LyricsApiGatewayServiceApplication {
 					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
 				)
 				.uri(uriConfiguration.getUserServiceEndpoint()))
+			.route(r -> r.path("/user-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://user-service"))
 			/* Lyrics API */
 			.route(r -> r.path("/api/lyrics")
 				.filters(f -> f
@@ -88,14 +107,19 @@ public class LyricsApiGatewayServiceApplication {
 					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
 				)
 				.uri(uriConfiguration.getLyricsServiceEndpoint()))
+			.route(r -> r.path("/lyrics-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://lyrics-service"))
+			/* Authentication API */
+			.route(r -> r.path("/authentication-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://authentication-service"))
 			.build();
 	}
 
+	@Operation(hidden = true)
 	@RequestMapping("/notImplemented")
 	public Mono<String> notImplemented() {
 		return Mono.just("Not Implemented");
 	}
 
+	@Operation(hidden = true)
 	@RequestMapping("/fallback")
 	public Mono<String> fallback() {
 		return Mono.just("fallback");

@@ -13,7 +13,6 @@ ext {
 
 allprojects {
 	group = 'com.hernancussi.lyrics'
-	version = '0.0.1-SNAPSHOT'
 
 	java {
 		sourceCompatibility = "${javaVersion}"

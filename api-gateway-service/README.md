@@ -9,6 +9,9 @@ This will expose the REST endpoints available and the actuator:
 - gateway routes: `/actuator/gateway/routes` 
 - gateway requests: `/actuator/metrics/spring.cloud.gateway.requests`
 - prometheus: `/actuator/prometheus`
+  
+Go to [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) to see the corresponding API docs (OpenAPI 3.0).
+Also, can check [http://localhost:8080/v3/api-docs/swagger-config](http://localhost:8080/v3/api-docs/swagger-config) to see Open API config JSON.
 
 ## Test Application
 
