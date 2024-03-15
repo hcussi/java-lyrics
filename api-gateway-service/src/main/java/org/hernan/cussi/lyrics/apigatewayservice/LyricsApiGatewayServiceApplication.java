@@ -95,7 +95,7 @@ public class LyricsApiGatewayServiceApplication {
 				)
 				.uri(uriConfiguration.getUserServiceEndpoint()))
 			.route(r -> r.path("/user-service/v3/api-docs").and().method(HttpMethod.GET)
-				.uri("lb://user-service"))
+				.uri(uriConfiguration.getUserServiceEndpoint()))
 			/* Lyrics API */
 			.route(r -> r.path("/api/lyrics")
 				.filters(f -> f
@@ -110,10 +110,10 @@ public class LyricsApiGatewayServiceApplication {
 				)
 				.uri(uriConfiguration.getLyricsServiceEndpoint()))
 			.route(r -> r.path("/lyrics-service/v3/api-docs").and().method(HttpMethod.GET)
-				.uri("lb://lyrics-service"))
+				.uri(uriConfiguration.getLyricsServiceEndpoint()))
 			/* Authentication API */
 			.route(r -> r.path("/authentication-service/v3/api-docs").and().method(HttpMethod.GET)
-				.uri("lb://authentication-service"))
+				.uri(uriConfiguration.getAuthenticationServiceEndpoint()))
 			.build();
 	}
 

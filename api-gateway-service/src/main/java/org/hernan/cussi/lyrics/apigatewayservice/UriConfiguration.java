@@ -9,8 +9,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties
 public class UriConfiguration {
 
-  private String userServiceEndpoint = "http://localhost:8081";
-  private String lyricsServiceEndpoint = "http://localhost:8083";
-  private String authenticationServiceEndpoint = "http://localhost:8085";
+  private String userServiceEndpoint = "lb://user-service";
+  private String lyricsServiceEndpoint = "lb://lyrics-service";
+  private String authenticationServiceEndpoint = "lb://authentication-service";
 
 }

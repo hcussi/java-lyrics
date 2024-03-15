@@ -38,3 +38,4 @@ out/
 
 .env
 docker-compose/db
+.run
