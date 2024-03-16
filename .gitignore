@@ -38,5 +38,8 @@ out/
 
 .env
 docker-compose/db
+docker-compose/elasticsearch/data
+docker-compose/logstash/data
+docker-compose/kibana/data
 .run
 logs

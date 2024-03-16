@@ -1,0 +1,6 @@
+# Default Kibana configuration for docker target
+server.name: kibana
+server.host: "0.0.0.0"
+elasticsearch.hosts: [ "http://lyrics-elasticsearch:9200" ]
+monitoring.ui.container.elasticsearch.enabled: true
+xpack.security.showInsecureClusterWarning: false

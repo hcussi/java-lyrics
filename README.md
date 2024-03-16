@@ -30,6 +30,7 @@ Will run the test task for all projects
   * Grafana
   * Redis
   * Zipkin
+  * ELK (ElasticSearch, Logstash and Kibana)
   * Kafka
 
 ### Application Architecture
@@ -100,6 +101,22 @@ Visit [http://localhost:9411/zipkin](http://localhost:9411/zipkin), no login cre
 More info
 - [https://github.com/openzipkin/zipkin/tree/master/zipkin-server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server).
 - https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.micrometer-tracing
+
+#### ELK (ElasticSearch, Logstash and Kibana)
+
+Will contain the log aggregation for all services. Be sure to check the `logs` folder and see some `*.json.logs` files.
+Visit [http://localhost:5601/app/discover](http://localhost:5601/app/discover) and click `Create data View`.
+Set a name and define an index pattern `logback-*`, you will see logs entries in the main view.
+
+More info
+- [Deploying ELK inside Docker Container: Docker-Compose](https://medium.com/@lopchannabeen138/deploying-elk-inside-docker-container-docker-compose-4a88682c7643)
+- [Creating Log Infrastructure with Elastic Stack and Docker Compose (Part 1)](https://arceister.medium.com/creating-log-infrastructure-with-elastic-stack-and-docker-compose-part-1-6195e8b9f0b2)
+- [Send the Logs of a Java App to the Elastic Stack (ELK)](https://www.baeldung.com/java-application-logs-to-elastic-stack)
+
+##### Troubleshooting
+
+- If you don't see the message `"You have data in Elasticsearch. Now, create a data view."`, restart the docker image `lyrics-logstash`.
+  Check the container logs and see if the events are being processed.
 
 ### Redis
 

@@ -7,7 +7,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./docker-compose/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./docker-compose/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
 
   grafana:
     image: grafana/grafana:latest #10.3.1
@@ -16,8 +16,8 @@ services:
       - "3000:3000"
     restart: unless-stopped
     volumes:
-      - ./docker-compose/grafana/datasources:/etc/grafana/provisioning/datasources
-      - ./docker-compose/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./docker-compose/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./docker-compose/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
 
   redis:
     image: redis:latest #7.2.4
@@ -57,3 +57,51 @@ services:
       - EUREKA_SERVICE_URL=http://$EUREKA_USER_NAME:$EUREKA_USER_PASS@host.docker.internal:8761/eureka/v2
     ports:
       - "9411:9411"
+
+  elasticsearch:
+    image: elasticsearch:8.12.2
+    container_name: lyrics-elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./docker-compose/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./docker-compose/elasticsearch/data:/usr/share/elasticsearch/data/
+    environment:
+      - discovery.type=single-node
+      - http.host=0.0.0.0
+      - transport.host=0.0.0.0
+      - cluster.name=elasticsearch
+      - bootstrap.memory_lock=true
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9200" ]
+      interval: 5s
+      timeout: 10s
+      retries: 120
+
+  logstash:
+    image: logstash:8.12.2
+    container_name: lyrics-logstash
+    ports:
+      - "5044:5044"
+      - "9600:9600"
+    volumes:
+      - ./docker-compose/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+      - ./docker-compose/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./docker-compose/logstash/data:/usr/share/logstash/data
+      - ./logs:/var/logs
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  kibana:
+    image: kibana:8.12.2
+    container_name: lyrics-kibana
+    ports:
+      - "5601:5601"
+    volumes:
+      - ./docker-compose/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+      - ./docker-compose/kibana/data:/usr/share/kibana/data
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
