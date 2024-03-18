@@ -20,15 +20,21 @@ public class UserBusiness {
 
   private final PasswordEncoder passwordEncoder;
 
+  private final NotificationBusiness notificationBusiness;
+
   @Autowired
-  public UserBusiness(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+  public UserBusiness(UserRepository userRepository, PasswordEncoder passwordEncoder, NotificationBusiness notificationBusiness) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
+    this.notificationBusiness = notificationBusiness;
   }
 
   public User createUser(final UserInput userInput) {
     var user = userInput.build(passwordEncoder.encode(userInput.getPassword()));
     log.info("Creating new user {}", user);
+
+    this.notificationBusiness.notifyUserCreation(user);
+
     return this.userRepository.save(user);
   }
 

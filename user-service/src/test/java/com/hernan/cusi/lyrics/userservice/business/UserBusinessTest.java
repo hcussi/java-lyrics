@@ -1,5 +1,6 @@
 package com.hernan.cusi.lyrics.userservice.business;
 
+import org.hernan.cussi.lyrics.userservice.business.NotificationBusiness;
 import org.hernan.cussi.lyrics.userservice.business.UserBusiness;
 import org.hernan.cussi.lyrics.userservice.exception.UserNotFoundException;
 import org.hernan.cussi.lyrics.userservice.input.UserInput;
@@ -21,6 +22,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,6 +34,9 @@ public class UserBusinessTest {
   @Mock
   private PasswordEncoder passwordEncoder;
 
+  @Mock
+  private NotificationBusiness notificationBusiness;
+
   @InjectMocks
   private UserBusiness userBusiness;
 
@@ -40,6 +45,8 @@ public class UserBusinessTest {
     when(userRepository.save(any(User.class))).thenReturn(
       User.builder().name("test").password("{bcrypt}$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG").email("test@gmail.com").build()
     );
+    doNothing().when(notificationBusiness).notifyUserCreation(any(User.class));
+
     var user = userBusiness.createUser(
       UserInput.builder().name("test").password("12345678").email("test@gmail.com").build()
     );

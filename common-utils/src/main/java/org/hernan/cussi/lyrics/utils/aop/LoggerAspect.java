@@ -10,14 +10,24 @@ public abstract class LoggerAspect {
 
   private static final Map<Class<?>, Logger> LOGGER_MAP = new HashMap<>();
 
+  protected static synchronized void log(final Class<?> clazz, final String message) {
+    getLog(clazz).info(message);
+  }
+
   protected static synchronized void log(final Class<?> clazz, final Object[] args, final String signatureName) {
-    var log =  LOGGER_MAP.computeIfAbsent(clazz, (_) -> LoggerFactory.getLogger(clazz));
+    getLog(clazz).info(STR."Method called: \{signatureName}" + (hasArgs(args) ? STR." called with: \{args[0]}" : ""));
+  }
 
-    var hasArgs = args.length > 0 && args[0] != null;
+  protected static synchronized void log(final Class<?> clazz, final Object[] args, final String signatureName, final Throwable exception) {
+    getLog(clazz).error(STR."Method error: \{signatureName}" + (hasArgs(args) ? STR." called with: \{args[0]}" : ""), exception);
+  }
 
-    if (log.isInfoEnabled()) {
-      log.info(STR."REST method: \{signatureName}" + (hasArgs ? STR." called with: \{args[0]}" : ""));
-    }
+  private static Logger getLog(final Class<?> clazz) {
+    return LOGGER_MAP.computeIfAbsent(clazz, (_) -> LoggerFactory.getLogger(clazz));
+  }
+
+  private static boolean hasArgs(final Object[] args) {
+    return args.length > 0 && args[0] != null;
   }
 
 }
