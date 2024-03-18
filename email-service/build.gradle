@@ -1,0 +1,26 @@
+version = '0.0.1-SNAPSHOT'
+
+ext {
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+    // bridges the Micrometer Observation API to OpenTelemetry
+    implementation 'io.micrometer:micrometer-tracing-bridge-otel'
+    // reports traces to Zipkin.
+    implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    implementation 'org.springframework.cloud:spring-cloud-stream'
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-binder'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+    implementation project(':common-utils')
+}

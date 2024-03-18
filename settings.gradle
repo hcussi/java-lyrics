@@ -5,3 +5,5 @@ include 'authentication-service'
 include 'lyrics-service'
 include 'common-utils'
 include 'discovery-server'
+include 'email-service'
+

@@ -21,6 +21,7 @@ Also, can check [http://localhost:8081/user-service/v3/api-docs](http://localhos
   * Spring Data Mongo
   * Spring AOP
   * Spring Docs (OpenAPI 3.0)
+* Kafka Publisher
 
 ### MongoDb
 
@@ -36,3 +37,11 @@ mongosh -u admin
 use usersdb;
 db.createUser({user: "lyricsUser", pwd: "s3c3rTpaZZ", roles : [{role: "readWrite", db: "usersdb"}]});
 ```
+
+### Kafka Publisher
+
+When a user is created send message to topic `org.hernan.cussi.lyrics-users.created`.
+
+More info:
+- [Implementing a Kafka Producer and Consumer using Spring Cloud Stream](https://medium.com/javarevisited/implementing-a-kafka-producer-and-consumer-using-spring-cloud-stream-d4b9a6a9eab1)
+- [Unit Testing a Spring Cloud Stream Producer / Publisher](https://medium.com/@sumant.rana/unit-testing-a-spring-cloud-stream-producer-publisher-ecf39d29ea13)

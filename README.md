@@ -52,6 +52,10 @@ Contains the routes to redirect to users and lyrics service.
 
 Will provide the functionality to CRUD users. Check the particular `README.md` for more info.
 
+#### Email microservice
+
+Will provide the functionality to send emails. Check the particular `README.md` for more info.
+
 #### Lyrics microservice
 
 WIP
