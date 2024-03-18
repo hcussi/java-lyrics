@@ -72,11 +72,29 @@ It is used for the following cases:
 
 ### Docker Compose
 
-In order to collect metrics with Prometheus and use Grafana dashboard, use Redis for api rate limit and Mongo DB as storage system and Zipkin for tracing; execute the following command:
+Start ELK stack:
+
+```bash
+docker-compose -f docker-compose-lyrics-elk.yml up -d
+```
+
+In order to collect metrics with Prometheus and use Grafana dashboard, use Redis for api rate limit and Mongo DB as storage system and Zipkin for tracing:
 
 ```bash
 docker-compose -f docker-compose-lyrics.yml up -d
 ```
+
+Start kafka cluster without Zookeeper (KRaft):
+
+```bash
+docker-compose -f docker-compose-lyrics-kafka.yml up -d
+```
+
+More info:
+ - [Docker Compose for Running Kafka in Kraft Mode](https://medium.com/@katyagorshkova/docker-compose-for-running-kafka-in-kraft-mode-20c535c48b1a)
+ - [Kafka raft (KRaft) cluster configuration from dev to prod — part 1](https://gsfl3101.medium.com/kafka-raft-kraft-cluster-configuration-from-dev-to-prod-part-1-8a844fabf804)
+ - [https://github.com/provectus/kafka-ui/blob/master/documentation/compose/kafka-ui.yaml](https://github.com/provectus/kafka-ui/blob/master/documentation/compose/kafka-ui.yaml)
+ - [https://github.com/Guilhermesfl/kafka-kraft/blob/main/docker/docker-compose.yml](https://github.com/Guilhermesfl/kafka-kraft/blob/main/docker/docker-compose.yml)
 
 ### Telemetry
 
@@ -102,16 +120,24 @@ More info
 - [https://github.com/openzipkin/zipkin/tree/master/zipkin-server](https://github.com/openzipkin/zipkin/tree/master/zipkin-server).
 - https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.micrometer-tracing
 
+##### Troubleshooting
+
+- If this container starts before the `discovery server`, it will fail to register; to solve this, just return the container
+- or be sure that this starts after the `discovery server`.
+
 #### ELK (ElasticSearch, Logstash and Kibana)
 
+Check [http://localhost:9200/](http://localhost:9200/) to see elasticsearch info.
 Will contain the log aggregation for all services. Be sure to check the `logs` folder and see some `*.json.logs` files.
 Visit [http://localhost:5601/app/discover](http://localhost:5601/app/discover) and click `Create data View`.
 Set a name and define an index pattern `logback-*`, you will see logs entries in the main view.
+You can also create another data view for Zipkin logs using the index `zipkin-span-*`.
 
 More info
 - [Deploying ELK inside Docker Container: Docker-Compose](https://medium.com/@lopchannabeen138/deploying-elk-inside-docker-container-docker-compose-4a88682c7643)
 - [Creating Log Infrastructure with Elastic Stack and Docker Compose (Part 1)](https://arceister.medium.com/creating-log-infrastructure-with-elastic-stack-and-docker-compose-part-1-6195e8b9f0b2)
 - [Send the Logs of a Java App to the Elastic Stack (ELK)](https://www.baeldung.com/java-application-logs-to-elastic-stack)
+- [Distributed Tracing with Spring Cloud Sleuth and Zipkin](https://medium.com/@bubu.tripathy/distributed-tracing-with-spring-cloud-sleuth-and-zipkin-9106c8afd349)
 
 ##### Troubleshooting
 
@@ -124,10 +150,11 @@ Will be used for API rate limiting.
 
 ### Mongo DB
 
-Will be used with users and lyrics collections.
+Will be used with users and lyrics collections. You can connect to the DB `lyricsdb` using MongoDB Compass. 
 
 ### Kafka
 
 Will be used for async event driven communication.
+Visit [http://localhost:9099/](http://localhost:9099/) and check that the cluster has been connected successfully. 
 
 WIP
