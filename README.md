@@ -35,18 +35,20 @@ Will run the test task for all projects
 
 ### Application Architecture
 
-Create docker images for each microservice:
+Create docker images for each microservice.
+
+More info:
   - [Building a Spring Boot microservices monorepo project with docker-compose](https://marceloh-web.medium.com/deploy-spring-boot-microservices-monorepo-project-with-docker-compose-ae4abbe8d2b4)
   - [Docker Compose: MongoDB and Spring Boot example](https://www.bezkoder.com/mongodb-docker-compose-spring-boot/)
   - [Get started with Spring Boot, MongoDB and Docker Compose](https://sfmohassel.medium.com/get-started-with-spring-boot-mongodb-and-docker-compose-cfae8283ed1b)
 
 #### Discovery Server
 
-Eureka server that allow microservices to self discover, basic auth set for connection.
+Eureka server that allow microservices to self discover, basic auth set for connection. Check the particular `README.md` for more info.
 
 #### Api Gateway microservice
 
-Contains the routes to redirect to users and lyrics service.
+Contains the routes to redirect to users and lyrics service. Check the particular `README.md` for more info.
 
 #### User microservice
 
@@ -159,6 +161,4 @@ Will be used with users and lyrics collections. You can connect to the DB `lyric
 ### Kafka
 
 Will be used for async event driven communication.
-Visit [http://localhost:9099/](http://localhost:9099/) and check that the cluster has been connected successfully. 
-
-WIP
+Visit [http://localhost:9099/](http://localhost:9099/) and check that the cluster has been connected successfully, also can check the topic created. 

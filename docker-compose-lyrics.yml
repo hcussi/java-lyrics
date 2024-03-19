@@ -22,12 +22,9 @@ services:
   redis:
     image: redis:7.2.4
     container_name: lyrics-redis
-    restart: always
+    restart: unless-stopped
     ports:
       - "6379:6379"
-    command: /bin/sh -c "redis-server --requirepass $$REDIS_HOST_PASSWORD"
-    env_file:
-      - .env
 
   mongo_db:
     image: mongo:7.0.6
