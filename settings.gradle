@@ -6,4 +6,4 @@ include 'lyrics-service'
 include 'common-utils'
 include 'discovery-server'
 include 'email-service'
-
+include 'lyrics-client-service'
