@@ -2,8 +2,8 @@ package com.hernan.cusi.lyrics.userservice.business;
 
 import org.hernan.cussi.lyrics.userservice.business.NotificationBusiness;
 import org.hernan.cussi.lyrics.userservice.business.UserBusiness;
+import org.hernan.cussi.lyrics.userservice.dto.UserDto;
 import org.hernan.cussi.lyrics.userservice.exception.UserNotFoundException;
-import org.hernan.cussi.lyrics.userservice.input.UserInput;
 import org.hernan.cussi.lyrics.userservice.model.User;
 import org.hernan.cussi.lyrics.userservice.repository.UserRepository;
 import org.hernan.cussi.lyrics.utils.test.PaginationUtil;
@@ -48,7 +48,7 @@ public class UserBusinessTest {
     doNothing().when(notificationBusiness).notifyUserCreation(any(User.class));
 
     var user = userBusiness.createUser(
-      UserInput.builder().name("test").password("12345678").email("test@gmail.com").build()
+      UserDto.builder().name("test").password("12345678").email("test@gmail.com").build()
     );
 
     assertEquals("test", user.getName());
@@ -66,7 +66,7 @@ public class UserBusinessTest {
     );
     var user = userBusiness.updateUser(
       "5ca4bbc7a2dd94ee5816238c",
-      UserInput.builder().name("test").email("test@gmail.com").build()
+      UserDto.builder().name("test").email("test@gmail.com").build()
     );
 
     assertEquals("test", user.getName());

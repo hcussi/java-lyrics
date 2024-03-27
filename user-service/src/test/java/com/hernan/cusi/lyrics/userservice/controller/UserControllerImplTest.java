@@ -3,9 +3,8 @@ package com.hernan.cusi.lyrics.userservice.controller;
 import org.hernan.cussi.lyrics.userservice.LyricsUserServiceApplication;
 import org.hernan.cussi.lyrics.userservice.business.UserBusiness;
 import org.hernan.cussi.lyrics.userservice.controller.UserControllerImpl;
-import org.hernan.cussi.lyrics.userservice.input.UserInput;
+import org.hernan.cussi.lyrics.userservice.dto.UserDto;
 import org.hernan.cussi.lyrics.userservice.model.User;
-import org.hernan.cussi.lyrics.userservice.repository.UserRepository;
 import org.hernan.cussi.lyrics.utils.test.PaginationUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,7 +60,7 @@ public class UserControllerImplTest {
 			User.builder().id("534rdc6l5i").name("test").email("test@gmail.com").build()
 		);
 		mockMvc
-			.perform(get("/api/v1/users/1"))
+			.perform(get("/api/v1/users/534rdc6l5i"))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 			.andExpect(content().json("{\"id\":\"534rdc6l5i\",\"name\":\"test\",\"email\":\"test@gmail.com\"}"));
@@ -69,7 +68,7 @@ public class UserControllerImplTest {
 
 	@Test
 	public void createUser_thenStatus200() throws Exception {
-		when(userBusiness.createUser(any(UserInput.class))).thenReturn(
+		when(userBusiness.createUser(any(UserDto.class))).thenReturn(
 			User.builder().id("534rdc6l5i").name("test").password("{bcrypt}$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG").email("test@gmail.com").build()
 		);
 		mockMvc
@@ -96,7 +95,7 @@ public class UserControllerImplTest {
 
 	@Test
 	public void updateUser_thenStatus200() throws Exception {
-		when(userBusiness.updateUser(anyString(), any(UserInput.class))).thenReturn(
+		when(userBusiness.updateUser(anyString(), any(UserDto.class))).thenReturn(
 			User.builder().id("534rdc6l5i").name("test2").email("test@gmail.com").build()
 		);
 		mockMvc

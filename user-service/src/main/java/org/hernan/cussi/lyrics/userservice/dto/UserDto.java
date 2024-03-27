@@ -1,4 +1,4 @@
-package org.hernan.cussi.lyrics.userservice.input;
+package org.hernan.cussi.lyrics.userservice.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +9,7 @@ import org.hernan.cussi.lyrics.userservice.model.User;
 
 @Data
 @Builder
-public class UserInput {
+public class UserDto {
 
   @NotBlank(groups = {Save.class, Update.class})
   @Size(min = 2, max = 255, groups = {Save.class, Update.class})

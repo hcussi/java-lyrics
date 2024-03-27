@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.hernan.cussi.lyrics.userservice.exception.UserNotFoundException;
-import org.hernan.cussi.lyrics.userservice.input.UserInput;
+import org.hernan.cussi.lyrics.userservice.dto.UserDto;
 import org.hernan.cussi.lyrics.userservice.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.EntityModel;
@@ -26,7 +26,7 @@ public interface UserController {
       content = { @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)) }
     ),
   })
-  User createUser(UserInput user);
+  User createUser(UserDto user);
 
   @Operation(
     summary = "Get endpoint",
@@ -70,7 +70,7 @@ public interface UserController {
       description = "user not found"
     )
   })
-  User updateUser(UserInput userInput, String userId) throws UserNotFoundException;
+  User updateUser(UserDto userDto, String userId) throws UserNotFoundException;
 
   @Operation(
     summary = "Delete endpoint",

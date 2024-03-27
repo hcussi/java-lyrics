@@ -1,8 +1,8 @@
 package org.hernan.cussi.lyrics.userservice.business;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hernan.cussi.lyrics.userservice.dto.UserDto;
 import org.hernan.cussi.lyrics.userservice.exception.UserNotFoundException;
-import org.hernan.cussi.lyrics.userservice.input.UserInput;
 import org.hernan.cussi.lyrics.userservice.model.User;
 import org.hernan.cussi.lyrics.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +29,8 @@ public class UserBusiness {
     this.notificationBusiness = notificationBusiness;
   }
 
-  public User createUser(final UserInput userInput) {
-    var user = userInput.build(passwordEncoder.encode(userInput.getPassword()));
+  public User createUser(final UserDto userDto) {
+    var user = userDto.build(passwordEncoder.encode(userDto.getPassword()));
     log.info("Creating new user {}", user);
 
     this.notificationBusiness.notifyUserCreation(user);
@@ -38,10 +38,10 @@ public class UserBusiness {
     return this.userRepository.save(user);
   }
 
-  public User updateUser(String userId, final UserInput userInput) throws UserNotFoundException {
+  public User updateUser(String userId, final UserDto userDto) throws UserNotFoundException {
     var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-    user.setName(userInput.getName());
-    user.setEmail(userInput.getEmail());
+    user.setName(userDto.getName());
+    user.setEmail(userDto.getEmail());
     log.info("Updating new user {}", user);
     return this.userRepository.save(user);
   }

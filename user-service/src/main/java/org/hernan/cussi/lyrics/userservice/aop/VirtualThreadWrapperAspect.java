@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @ConditionalOnExpression("${aspect.property.enabled:true}")
 public class VirtualThreadWrapperAspect extends LoggerAspect {
 
-  // Define the pointcut for HandleRestRequest annotation
+  // Define the pointcut for VirtualThreadWrapper annotation
   @Pointcut("@annotation(org.hernan.cussi.lyrics.userservice.aop.VirtualThreadWrapper)")
   public void handleAnnotationPointcut() {
   }

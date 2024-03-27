@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class HandleRestRequestAspect extends LoggerAspect {
 
   // Define the pointcut for HandleRestRequest annotation
-  @Pointcut("@annotation(org.hernan.cussi.lyrics.userservice.aop.HandleRestRequest)")
+  @Pointcut("@annotation(org.hernan.cussi.lyrics.utils.aop.HandleRestRequest)")
   public void handleAnnotationPointcut() {
   }
 

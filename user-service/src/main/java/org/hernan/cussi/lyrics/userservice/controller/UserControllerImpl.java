@@ -1,10 +1,10 @@
 package org.hernan.cussi.lyrics.userservice.controller;
 
-import org.hernan.cussi.lyrics.userservice.aop.HandleRestRequest;
 import org.hernan.cussi.lyrics.userservice.business.UserBusiness;
+import org.hernan.cussi.lyrics.userservice.dto.UserDto;
 import org.hernan.cussi.lyrics.userservice.exception.UserNotFoundException;
-import org.hernan.cussi.lyrics.userservice.input.UserInput;
 import org.hernan.cussi.lyrics.userservice.model.User;
+import org.hernan.cussi.lyrics.utils.aop.HandleRestRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.EntityModel;
@@ -40,7 +40,7 @@ public class UserControllerImpl implements UserController {
     produces = MediaType.APPLICATION_JSON_VALUE
   )
   @HandleRestRequest
-  public User createUser(@RequestBody @Validated(UserInput.Save.class) UserInput user) {
+  public User createUser(@RequestBody @Validated(UserDto.Save.class) UserDto user) {
     return userBusiness.createUser(user);
   }
 
@@ -74,8 +74,8 @@ public class UserControllerImpl implements UserController {
     produces = MediaType.APPLICATION_JSON_VALUE
   )
   @HandleRestRequest
-  public User updateUser(@RequestBody @Validated(UserInput.Update.class) UserInput userInput, @PathVariable("id") String userId) throws UserNotFoundException {
-    return userBusiness.updateUser(userId, userInput);
+  public User updateUser(@RequestBody @Validated(UserDto.Update.class) UserDto userDto, @PathVariable("id") String userId) throws UserNotFoundException {
+    return userBusiness.updateUser(userId, userDto);
   }
 
   @DeleteMapping(
