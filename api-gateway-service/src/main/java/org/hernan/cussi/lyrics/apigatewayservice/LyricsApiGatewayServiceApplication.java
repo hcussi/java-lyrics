@@ -65,7 +65,7 @@ public class LyricsApiGatewayServiceApplication {
 					.rewritePath("/api/users", "/api/v1/users")
 					.circuitBreaker(c -> c.setName("user-service-circuit-breaker").setFallbackUri("forward:/fallback"))
 					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
-					.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter()))
+					.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter()).setDenyEmptyKey(false).setKeyResolver(new SimpleClientAddressResolver()))
 				)
 				.uri(uriConfiguration.getUserServiceEndpoint()))
 			.route(r -> r.path( false, "/api/users/**")
@@ -73,22 +73,16 @@ public class LyricsApiGatewayServiceApplication {
 					.rewritePath("/api/users/(?<suburl>.*)", "/api/v1/users/${suburl}")
 					.circuitBreaker(c -> c.setName("user-service-circuit-breaker").setFallbackUri("forward:/fallback"))
 					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
-					.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter()))
+					.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter()).setDenyEmptyKey(false).setKeyResolver(new SimpleClientAddressResolver()))
 				)
 				.uri(uriConfiguration.getUserServiceEndpoint()))
 			.route(r -> r.path("/user-service/v3/api-docs").and().method(HttpMethod.GET)
 				.uri(uriConfiguration.getUserServiceEndpoint()))
 			/* Lyrics API */
-			.route(r -> r.path("/api/lyrics")
-				.filters(f -> f
-					.circuitBreaker(c -> c.setName("lyrics-service-circuit-breaker").setFallbackUri("forward:/notImplemented"))
-					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
-					.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter()).setDenyEmptyKey(false).setKeyResolver(new SimpleClientAddressResolver()))
-				)
-				.uri(uriConfiguration.getLyricsServiceEndpoint()))
 			.route(r -> r.path(false, "/api/lyrics/**")
 				.filters(f -> f
-					.circuitBreaker(c -> c.setName("lyrics-service-circuit-breaker").setFallbackUri("forward:/notImplemented"))
+					.rewritePath("/api/lyrics/(?<suburl>.*)", "/api/v1/lyrics/${suburl}")
+					.circuitBreaker(c -> c.setName("lyrics-service-circuit-breaker").setFallbackUri("forward:/fallback"))
 					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
 					.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter()).setDenyEmptyKey(false).setKeyResolver(new SimpleClientAddressResolver()))
 				)
@@ -101,12 +95,6 @@ public class LyricsApiGatewayServiceApplication {
 				.filters(f -> f.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter()).setDenyEmptyKey(false).setKeyResolver(new SimpleClientAddressResolver())))
 				.uri(uriConfiguration.getAuthenticationServiceEndpoint()))
 			.build();
-	}
-
-	@Operation(hidden = true)
-	@RequestMapping("/notImplemented")
-	public Mono<String> notImplemented() {
-		return Mono.just("Not Implemented");
 	}
 
 	@Operation(hidden = true)

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,11 +25,11 @@ public class LyricsControllerImpl implements LyricsController {
   }
 
   @GetMapping(
-    value = "/suggest/{term}",
+    value = "/suggest",
     produces = MediaType.APPLICATION_JSON_VALUE
   )
   @HandleRestRequest
-  public EntityModel<ResponseDto> getSuggest(@PathVariable("term") String suggestTerm, @RequestParam(value = "token", required = false) String token) {
+  public EntityModel<ResponseDto> getSuggest(@RequestParam("term") String suggestTerm, @RequestParam(value = "token", required = false) String token) {
     return EntityModel.of(
       lyricsClient.getSuggest(suggestTerm, token).getContent(),
       linkTo(methodOn(LyricsControllerImpl.class).getSuggest(suggestTerm, token)).withSelfRel()

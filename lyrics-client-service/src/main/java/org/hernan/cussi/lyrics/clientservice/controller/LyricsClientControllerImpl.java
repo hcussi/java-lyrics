@@ -8,7 +8,6 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,11 +31,11 @@ public class LyricsClientControllerImpl implements LyricsClientController {
   }
 
   @GetMapping(
-    value = "/suggest/{term}",
+    value = "/suggest",
     produces = MediaType.APPLICATION_JSON_VALUE
   )
   @HandleRestRequest
-  public EntityModel<ClientResponseDto> getSuggest(@PathVariable("term") String suggestTerm, @RequestParam(value = "token", required = false) String token) {
+  public EntityModel<ClientResponseDto> getSuggest(@RequestParam("term") String suggestTerm, @RequestParam(value = "token", required = false) String token) {
     var res = new ClientResponseDto();
     var url = new StringBuilder("/search?q={term}");
 

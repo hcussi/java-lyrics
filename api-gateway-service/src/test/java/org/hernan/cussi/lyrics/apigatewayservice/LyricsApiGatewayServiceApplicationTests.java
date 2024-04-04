@@ -74,19 +74,23 @@ class LyricsApiGatewayServiceApplicationTests {
 
 	@Test
 	public void apiLyrics() throws Exception {
+		var lyricsJson = "{\"songs\":[{\"id\":92720046,\"title\":\"Back In Black\",\"link\":\"https://www.deezer.com/track/92720046\",\"previewLink\":\"https://cdns-preview-c.dzcdn.net/stream/c-cfc0e5baab3f7ce7758e259482bd8681-5.mp3\",\"artist\":{\"id\":115,\"name\":\"AC/DC\",\"link\":\"https://www.deezer.com/artist/115\",\"pictureUrl\":\"https://api.deezer.com/artist/115/image\",\"pictureUrlSmall\":\"https://e-cdns-images.dzcdn.net/images/artist/ad61d6e0fa724d880db979c9ac8cc5e3/56x56-000000-80-0-0.jpg\",\"pictureUrlMedium\":\"https://e-cdns-images.dzcdn.net/images/artist/ad61d6e0fa724d880db979c9ac8cc5e3/250x250-000000-80-0-0.jpg\",\"tracklistUrl\":\"https://api.deezer.com/artist/115/top?limit=50\"},\"album\":{\"id\":9410100,\"title\":\"Back In Black\",\"coverUrl\":\"https://api.deezer.com/album/9410100/image\",\"coverUrlSmall\":\"https://e-cdns-images.dzcdn.net/images/cover/41041b14873956eff0459c8ea2c296a8/56x56-000000-80-0-0.jpg\",\"coverUrlMedium\":\"https://e-cdns-images.dzcdn.net/images/cover/41041b14873956eff0459c8ea2c296a8/250x250-000000-80-0-0.jpg\",\"tracklistUrl\":\"https://api.deezer.com/album/9410100/tracks\"}}],\"artists\":[{\"id\":115,\"name\":\"AC/DC\",\"link\":\"https://www.deezer.com/artist/115\",\"pictureUrl\":\"https://api.deezer.com/artist/115/image\",\"pictureUrlSmall\":\"https://e-cdns-images.dzcdn.net/images/artist/ad61d6e0fa724d880db979c9ac8cc5e3/56x56-000000-80-0-0.jpg\",\"pictureUrlMedium\":\"https://e-cdns-images.dzcdn.net/images/artist/ad61d6e0fa724d880db979c9ac8cc5e3/250x250-000000-80-0-0.jpg\",\"tracklistUrl\":\"https://api.deezer.com/artist/115/top?limit=50\"}],\"albums\":[{\"id\":9410156,\"title\":\"Iron Man 2\",\"coverUrl\":\"https://api.deezer.com/album/9410156/image\",\"coverUrlSmall\":\"https://e-cdns-images.dzcdn.net/images/cover/f5cb12b6f789aeec02b245100c8f1bcc/56x56-000000-80-0-0.jpg\",\"coverUrlMedium\":\"https://e-cdns-images.dzcdn.net/images/cover/f5cb12b6f789aeec02b245100c8f1bcc/250x250-000000-80-0-0.jpg\",\"tracklistUrl\":\"https://api.deezer.com/album/9410156/tracks\"}],\"prev\":null,\"next\":\"aHR0cHM6Ly9hcGkuZGVlemVyLmNvbS9zZWFyY2g/cT1iYWNrJTIwaW4lMjBibGFjayZpbmRleD0yNQ==\",\"_links\":{\"self\":{\"href\":\"http://192.168.68.101:8083/api/v1/lyrics/suggest/back%20in%20black{?token}\",\"templated\":true}}}";
+
 		stubFor(
-			get(urlEqualTo("/api/v1/lyrics"))
+			get(urlEqualTo("/api/v1/lyrics/suggest?term=back%20in%20black"))
 				.willReturn(
 					aResponse()
-						.withStatus(404)
+						.withHeader("Content-Type", "application/json")
+						.withBody(lyricsJson)
 				)
 		);
 
 		webClient
 			.get()
-			.uri("/api/v1/lyrics")
+			.uri("/api/lyrics/suggest?term=back in black")
 			.exchange()
-			.expectStatus().is4xxClientError();
+			.expectStatus().isOk()
+			.expectBody().json(lyricsJson);
 	}
 
 }
