@@ -1,25 +1,14 @@
 package org.hernan.cussi.lyrics.clientservice.dto;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import org.hernan.cussi.lyrics.utils.dto.ArtistDto;
 
 import java.util.LinkedHashMap;
 
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode
-public class ArtistDto {
+@EqualsAndHashCode(callSuper = true)
+public class ClientArtistDto extends ArtistDto {
 
-  private Long id;
-  private String name;
-  private String link;
-  private String pictureUrl; // picture
-  private String pictureUrlSmall; // picture_small
-  private String pictureUrlMedium; // picture_medium
-  private String tracklistUrl; // tracklist
-
-  public ArtistDto(final LinkedHashMap<String, Object> item) {
+  public ClientArtistDto(final LinkedHashMap<String, Object> item) {
     id = Long.valueOf(String.valueOf(item.get("id")));
     name = (String) item.get("name");
     link = (String) item.get("link");

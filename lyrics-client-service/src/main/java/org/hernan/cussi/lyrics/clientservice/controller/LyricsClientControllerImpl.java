@@ -1,7 +1,7 @@
 package org.hernan.cussi.lyrics.clientservice.controller;
 
 import org.hernan.cussi.lyrics.clientservice.config.AppConfig;
-import org.hernan.cussi.lyrics.clientservice.dto.ResponseDto;
+import org.hernan.cussi.lyrics.clientservice.dto.ClientResponseDto;
 import org.hernan.cussi.lyrics.utils.aop.HandleRestRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -21,7 +21,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/lyrics")
 public class LyricsClientControllerImpl implements LyricsClientController {
 
   private final RestTemplate restTemplate;
@@ -36,8 +36,8 @@ public class LyricsClientControllerImpl implements LyricsClientController {
     produces = MediaType.APPLICATION_JSON_VALUE
   )
   @HandleRestRequest
-  public EntityModel<ResponseDto> getSuggest(@PathVariable("term") String suggestTerm, @RequestParam(value = "token", required = false) String token) {
-    var res = new ResponseDto();
+  public EntityModel<ClientResponseDto> getSuggest(@PathVariable("term") String suggestTerm, @RequestParam(value = "token", required = false) String token) {
+    var res = new ClientResponseDto();
     var url = new StringBuilder("/search?q={term}");
 
     if (token != null) {

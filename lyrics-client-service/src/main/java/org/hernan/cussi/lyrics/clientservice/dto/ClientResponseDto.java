@@ -1,29 +1,17 @@
 package org.hernan.cussi.lyrics.clientservice.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import org.hernan.cussi.lyrics.utils.dto.ResponseDto;
+import org.hernan.cussi.lyrics.utils.dto.SongDto;
 
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class ResponseDto {
-
-  private List<SongDto> songs;
-  private Set<ArtistDto> artists;
-  private Set<AlbumDto> albums;
-
-  private String prev;
-  private String next; // http://api.deezer.com/search?limit=15&q=back%20black&index=15
+@EqualsAndHashCode(callSuper = true)
+public class ClientResponseDto extends ResponseDto {
 
   public void init(final LinkedHashMap data) {
 
@@ -35,7 +23,7 @@ public class ResponseDto {
   private void initSongs(final ArrayList<LinkedHashMap> value) {
     songs = value.stream()
       .filter(item -> item.getOrDefault("type", "").equals("track"))
-      .map(SongDto::new).toList();
+      .map(ClientSongDto::new).map(clientSongDto -> (SongDto) clientSongDto).toList();
     artists = songs.stream().map(SongDto::getArtist).collect(Collectors.toSet());
     albums = songs.stream().map(SongDto::getAlbum).collect(Collectors.toSet());
   }

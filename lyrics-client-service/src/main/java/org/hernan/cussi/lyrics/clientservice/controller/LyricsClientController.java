@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.hernan.cussi.lyrics.clientservice.dto.ResponseDto;
+import org.hernan.cussi.lyrics.clientservice.dto.ClientResponseDto;
 import org.springframework.hateoas.EntityModel;
 
 @Tag(name = "Lyrics Client", description = "Expose Lyrics endpoints")
@@ -19,9 +19,9 @@ public interface LyricsClientController {
     @ApiResponse(
       responseCode = "200",
       description = "successful operation",
-      content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseDto.class)) }
+      content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ClientResponseDto.class)) }
     ),
   })
-  EntityModel<ResponseDto> getSuggest(String suggest, String token);
+  EntityModel<ClientResponseDto> getSuggest(String suggest, String token);
 
 }
