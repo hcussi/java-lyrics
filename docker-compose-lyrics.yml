@@ -25,6 +25,9 @@ services:
     restart: unless-stopped
     ports:
       - "6379:6379"
+    command: /bin/sh -c "redis-server --requirepass $$REDIS_HOST_PASSWORD"
+    env_file:
+      - .env
 
   mongo_db:
     image: mongo:7.0.6
