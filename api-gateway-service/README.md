@@ -26,6 +26,7 @@ Also, can check [http://localhost:8080/v3/api-docs/swagger-config](http://localh
   * Spring Actuator (Prometheus)
 * Spring Cloud Gateway
   * Circuit Breaker (resilience4j)
+  * Rate Limiter (redis)
  
 More info:
 - [Getting Started with Spring Cloud Gateway — Part One](https://medium.com/@jayaramanan.kumar/getting-started-with-spring-cloud-gateway-part-one-c2177b32d01d)

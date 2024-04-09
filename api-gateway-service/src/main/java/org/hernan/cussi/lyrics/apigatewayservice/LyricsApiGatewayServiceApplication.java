@@ -6,6 +6,7 @@ import io.netty.resolver.DefaultAddressResolverGroup;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Info;
+import org.hernan.cussi.lyrics.apigatewayservice.filter.AuthenticationFilter;
 import org.hernan.cussi.lyrics.apigatewayservice.ratelimit.RateLimitConfig;
 import org.hernan.cussi.lyrics.apigatewayservice.ratelimit.SimpleClientAddressResolver;
 import org.hernan.cussi.lyrics.utils.telemetry.TelemetryUtils;
@@ -38,6 +39,9 @@ public class LyricsApiGatewayServiceApplication {
 	@Autowired
 	private RateLimitConfig rateLimitConfig;
 
+	@Autowired
+	private AuthenticationFilter authenticationFilter;
+
 	public static void main(String[] args) {
 		SpringApplication.run(LyricsApiGatewayServiceApplication.class, args);
 	}
@@ -59,9 +63,30 @@ public class LyricsApiGatewayServiceApplication {
 	@Bean
 	public RouteLocator customRouteLocator(RouteLocatorBuilder builder, UriConfiguration uriConfiguration) {
 		return builder.routes()
+			/* Authentication API */
+			.route(r -> r.path("/api/authentication")
+				.filters(f -> f
+					.rewritePath("/api/authentication", "/api/v1/authentication")
+					.circuitBreaker(c -> c.setName("authentication-service-circuit-breaker").setFallbackUri("forward:/fallback"))
+					.retry(config -> config.setRetries(3).setMethods(HttpMethod.POST))
+					.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter()).setDenyEmptyKey(false).setKeyResolver(new SimpleClientAddressResolver()))
+				)
+				.uri(uriConfiguration.getAuthenticationServiceEndpoint()))
+			.route(r -> r.path("/authentication-service/v3/api-docs").and().method(HttpMethod.GET)
+				.filters(f -> f.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter()).setDenyEmptyKey(false).setKeyResolver(new SimpleClientAddressResolver())))
+				.uri(uriConfiguration.getAuthenticationServiceEndpoint()))
 			/* Users API */
+			.route(r -> r.path( false, "/api/register")
+				.filters(f -> f
+					.filter(authenticationFilter)
+					.rewritePath("/api/register", "/api/v1/users")
+					.circuitBreaker(c -> c.setName("user-service-circuit-breaker").setFallbackUri("forward:/fallback"))
+					.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter()).setDenyEmptyKey(false).setKeyResolver(new SimpleClientAddressResolver()))
+				)
+				.uri(uriConfiguration.getUserServiceEndpoint()))
 			.route(r -> r.path("/api/users")
 				.filters(f -> f
+					.filter(authenticationFilter)
 					.rewritePath("/api/users", "/api/v1/users")
 					.circuitBreaker(c -> c.setName("user-service-circuit-breaker").setFallbackUri("forward:/fallback"))
 					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
@@ -70,6 +95,7 @@ public class LyricsApiGatewayServiceApplication {
 				.uri(uriConfiguration.getUserServiceEndpoint()))
 			.route(r -> r.path( false, "/api/users/**")
 				.filters(f -> f
+					.filter(authenticationFilter)
 					.rewritePath("/api/users/(?<suburl>.*)", "/api/v1/users/${suburl}")
 					.circuitBreaker(c -> c.setName("user-service-circuit-breaker").setFallbackUri("forward:/fallback"))
 					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
@@ -81,6 +107,7 @@ public class LyricsApiGatewayServiceApplication {
 			/* Lyrics API */
 			.route(r -> r.path(false, "/api/lyrics/**")
 				.filters(f -> f
+					.filter(authenticationFilter)
 					.rewritePath("/api/lyrics/(?<suburl>.*)", "/api/v1/lyrics/${suburl}")
 					.circuitBreaker(c -> c.setName("lyrics-service-circuit-breaker").setFallbackUri("forward:/fallback"))
 					.retry(config -> config.setRetries(3).setMethods(HttpMethod.GET))
@@ -90,10 +117,6 @@ public class LyricsApiGatewayServiceApplication {
 			.route(r -> r.path("/lyrics-service/v3/api-docs").and().method(HttpMethod.GET)
 				.filters(f -> f.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter()).setDenyEmptyKey(false).setKeyResolver(new SimpleClientAddressResolver())))
 				.uri(uriConfiguration.getLyricsServiceEndpoint()))
-			/* Authentication API */
-			.route(r -> r.path("/authentication-service/v3/api-docs").and().method(HttpMethod.GET)
-				.filters(f -> f.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter()).setDenyEmptyKey(false).setKeyResolver(new SimpleClientAddressResolver())))
-				.uri(uriConfiguration.getAuthenticationServiceEndpoint()))
 			.build();
 	}
 

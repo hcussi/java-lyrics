@@ -33,11 +33,7 @@ public class AuthenticationBusiness {
       throw new InvalidUserCredentialsException("Invalid email or password");
     }
 
-    var token = jwtUtil.generateToken(authRequest.getEmail());
-    jwtUtil.validateToken(token, user.getEmail());
-
-    return token;
-
+    return jwtUtil.generateToken(authRequest.getEmail());
   }
 
 }

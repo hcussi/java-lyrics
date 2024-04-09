@@ -16,15 +16,13 @@ import java.util.function.Function;
 @Slf4j
 public class JwtUtil {
 
-  private final String TOKEN_HEADER = "Authorization";
-  private final String TOKEN_PREFIX = "Bearer ";
   private final SecretKey secretKey;
 
   public JwtUtil(String apiSecretKey) {
     secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(apiSecretKey));
   }
 
-  public String extractUsername(String token) {
+  public String extractSubject(String token) {
     return extractClaim(token, Claims::getSubject);
   }
 
@@ -32,7 +30,7 @@ public class JwtUtil {
     return extractClaim(token, Claims::getExpiration);
   }
 
-  public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+  private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
     final Claims claims = extractAllClaims(token);
     return claimsResolver.apply(claims);
   }
@@ -62,21 +60,12 @@ public class JwtUtil {
     return createToken(claims, username);
   }
 
-  // String bearerToken = request.getHeader(TOKEN_HEADER);
-  public String resolveToken(String bearerToken) {
-    if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
-      return bearerToken.substring(TOKEN_PREFIX.length());
-    }
-    return null;
-  }
-
-  public void validateToken(String token, String username) {
-    final String tokenUsername = extractUsername(token);
-    if (!tokenUsername.equals(username) || isTokenExpired(token)) {
+  public void validateToken(String token) {
+    if (isTokenExpired(token)) {
       if(log.isWarnEnabled()) {
-        log.warn(STR."Invalid token has been provided for \{username}");
+        log.warn("Invalid token has been provided");
       }
-      throw new InvalidJwtTokenException(STR."Invalid token has been provided for \{username}");
+      throw new InvalidJwtTokenException("Invalid token has been provided");
     }
   }
 }

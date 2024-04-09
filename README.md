@@ -28,10 +28,11 @@ Will run the test task for all projects
 * Docker Compose
   * Prometheus
   * Grafana
-  * Redis
-  * Zipkin
-  * ELK (ElasticSearch, Logstash and Kibana)
-  * Kafka
+  * Redis / Rate Limiter
+  * Zipkin / Distributed Tracing
+  * ELK (ElasticSearch, Logstash and Kibana) / Log Aggregation
+  * Mongo
+  * Kafka / Asynchronous Eventing
 
 ### Application Architecture
 
@@ -42,29 +43,63 @@ More info:
   - [Docker Compose: MongoDB and Spring Boot example](https://www.bezkoder.com/mongodb-docker-compose-spring-boot/)
   - [Get started with Spring Boot, MongoDB and Docker Compose](https://sfmohassel.medium.com/get-started-with-spring-boot-mongodb-and-docker-compose-cfae8283ed1b)
 
+In order to use the user and lyrics API endpoints at least one user has to be registered. Use `api/register` from the API Gateway.
+
 #### Discovery Server
 
 Eureka server that allow microservices to self discover, basic auth set for connection. Check the particular `README.md` for more info.
+Design Patterns implemented:
+- Service Discovery
 
 #### Api Gateway microservice
 
 Contains the routes to redirect to users and lyrics service. Check the particular `README.md` for more info.
+Design Patterns implemented:
+- API Gateway
+- Circuit Breaker
+- Rate Limiter
+- Retry
+- Distribute Tracing
+- Log Aggregation
 
 #### User microservice
 
 Will provide the functionality to CRUD users. Check the particular `README.md` for more info.
+Design Patterns implemented:
+- Asynchronous Eventing
+- Distribute Tracing
+- Log Aggregation
 
 #### Email microservice
 
 Will provide the functionality to send emails. Check the particular `README.md` for more info.
+Design Patterns implemented:
+- Asynchronous Eventing
+- Distribute Tracing
+- Log Aggregation
 
+#### Lyrics client microservice
+
+Will provide the external connection with the Deezer API, wraps the REST communication.
+Design Patterns implemented:
+- Distribute Tracing
+- Log Aggregation
+- 
 #### Lyrics microservice
 
-WIP
+Will connect with the lyrics client microservice and wraps the communication implementation fallback mechanism and circuit breaker pattern.
+Design Patterns implemented:
+- Circuit Breaker
+- Fallback
+- Distribute Tracing
+- Log Aggregation
 
-#### Authorization microservice
+#### Authentication microservice
 
-WIP
+Will validate the API authentication required to use the APIs.
+Design Patterns implemented:
+- Distribute Tracing
+- Log Aggregation
 
 ### Common Utils library
 
