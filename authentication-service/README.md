@@ -20,4 +20,5 @@ Also, can check [http://localhost:8085/authentication-service/v3/api-docs](http:
   * Spring Web (REST)
   * Spring AOP
   * Spring Docs (OpenAPI 3.0)
-  * Spring Security
+  * Spring Data Mongo
+  * JWT

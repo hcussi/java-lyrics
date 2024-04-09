@@ -1,12 +1,16 @@
 version = '0.1.0-SNAPSHOT'
 
 ext {
-
+    jjwtVersion = '0.12.5'
 }
 
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-data-mongodb:$mongoVersion"
     implementation 'io.micrometer:micrometer-tracing'
+
+    implementation "io.jsonwebtoken:jjwt-api:$jjwtVersion"
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:$jjwtVersion"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:$jjwtVersion"
 }
 
 bootJar {

@@ -21,7 +21,7 @@ Also, can check [http://localhost:8081/user-service/v3/api-docs](http://localhos
   * Spring Data Mongo
   * Spring AOP
   * Spring Docs (OpenAPI 3.0)
-* Kafka Publisher
+  * Spring Streams Kafka
 
 ### MongoDb
 
