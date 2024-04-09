@@ -2,6 +2,7 @@ package org.hernan.cussi.lyrics.userservice.business;
 
 import lombok.extern.slf4j.Slf4j;
 import org.hernan.cussi.lyrics.userservice.dto.UserDto;
+import org.hernan.cussi.lyrics.userservice.exception.EmailAlreadyUsedException;
 import org.hernan.cussi.lyrics.userservice.exception.UserNotFoundException;
 import org.hernan.cussi.lyrics.userservice.model.User;
 import org.hernan.cussi.lyrics.userservice.repository.UserRepository;
@@ -29,9 +30,13 @@ public class UserBusiness {
     this.notificationBusiness = notificationBusiness;
   }
 
-  public User createUser(final UserDto userDto) {
+  public User createUser(final UserDto userDto) throws EmailAlreadyUsedException {
     var user = userDto.build(passwordEncoder.encode(userDto.getPassword()));
     log.info("Creating new user {}", user);
+
+    if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+      throw new EmailAlreadyUsedException(STR."Email already in use \{user.getEmail()}");
+    }
 
     this.notificationBusiness.notifyUserCreation(user);
 
@@ -40,6 +45,12 @@ public class UserBusiness {
 
   public User updateUser(String userId, final UserDto userDto) throws UserNotFoundException {
     var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+    var userFound = userRepository.findByEmail(userDto.getEmail());
+
+    if (userFound.isPresent() && !userFound.get().getId().equals(user.getId())) {
+      throw new EmailAlreadyUsedException(STR."Email already in use \{user.getEmail()}");
+    }
+
     user.setName(userDto.getName());
     user.setEmail(userDto.getEmail());
     log.info("Updating new user {}", user);
