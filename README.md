@@ -26,8 +26,8 @@ Will run the test task for all projects
 * Spring Cloud (Using 2023.x compatible with Spring Boot 3.2.x)
 * Micrometer tracing (Zipkin)
 * Docker Compose
-  * Prometheus
-  * Grafana
+  * Prometheus WIP
+  * Grafana WIP
   * Redis / Rate Limiter
   * Zipkin / Distributed Tracing
   * ELK (ElasticSearch, Logstash and Kibana) / Log Aggregation
@@ -42,6 +42,8 @@ More info:
   - [Building a Spring Boot microservices monorepo project with docker-compose](https://marceloh-web.medium.com/deploy-spring-boot-microservices-monorepo-project-with-docker-compose-ae4abbe8d2b4)
   - [Docker Compose: MongoDB and Spring Boot example](https://www.bezkoder.com/mongodb-docker-compose-spring-boot/)
   - [Get started with Spring Boot, MongoDB and Docker Compose](https://sfmohassel.medium.com/get-started-with-spring-boot-mongodb-and-docker-compose-cfae8283ed1b)
+
+![Diagram](diagram.png)
 
 In order to use the user and lyrics API endpoints at least one user has to be registered. Use `api/register` from the API Gateway.
 
@@ -142,13 +144,13 @@ More info:
 Spring actuator is used in order to use different metrics and collect them in Prometheus.
 `actuator/*` endpoints are accessed by using basic authentication.
 
-#### Prometheus
+#### Prometheus WIP
 
 Consume the REST endpoint `actuator/prometheus` in order to collect the different metrics for the different endpoints.
 It also uses the basic authentication to access the info.
 Visit [http://localhost:9090](http://localhost:9090), no login credentials are required.
 
-#### Grafana
+#### Grafana WIP
 
 A default datasource and dashboard has been provided in order to check the different metrics collected by Prometheus.
 Visit [http://localhost:3000/login](http://localhost:3000/login) and login with default credentials `admin/admin`.
