@@ -1,6 +1,8 @@
 package org.hernan.cussi.lyrics.apigatewayservice.filter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hernan.cussi.lyrics.apigatewayservice.config.RouterValidator;
+import org.hernan.cussi.lyrics.apigatewayservice.service.OAuthService;
 import org.hernan.cussi.lyrics.utils.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -16,20 +18,23 @@ import reactor.core.publisher.Mono;
 
 @RefreshScope
 @Component
+@Slf4j
 @Profile("!test")
 public class AuthenticationFilter implements GatewayFilter {
 
-    private final String TOKEN_HEADER = "Authorization";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String CLIENT_AUTHORIZATION_HEADER = "X-Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
-
-
     private final RouterValidator routerValidator;
     private final JwtUtil jwtUtil;
 
+    private final OAuthService oAuthService;
+
     @Autowired
-    public AuthenticationFilter(RouterValidator routerValidator, JwtUtil jwtUtil) {
+    public AuthenticationFilter(RouterValidator routerValidator, JwtUtil jwtUtil, OAuthService oAuthService) {
         this.routerValidator = routerValidator;
         this.jwtUtil = jwtUtil;
+        this.oAuthService = oAuthService;
     }
 
     @Override
@@ -64,15 +69,24 @@ public class AuthenticationFilter implements GatewayFilter {
     }
 
     private String getAuthHeader(ServerHttpRequest request) {
-        return request.getHeaders().getOrEmpty(TOKEN_HEADER).getFirst();
+        return request.getHeaders().getOrEmpty(AUTHORIZATION_HEADER).getFirst();
     }
 
     private boolean isAuthMissing(ServerHttpRequest request) {
-        return !request.getHeaders().containsKey(TOKEN_HEADER);
+        return !request.getHeaders().containsKey(AUTHORIZATION_HEADER);
     }
 
     private void updateRequest(ServerWebExchange exchange, String token) {
-        var email = jwtUtil.extractSubject(token);
-        exchange.getRequest().mutate().header("email", email).build();
+      try {
+          var accessToken = oAuthService.getOAuth2AccessToken();
+
+          exchange.getRequest().mutate()
+            .header(AUTHORIZATION_HEADER, STR."\{TOKEN_PREFIX}\{accessToken}")
+            .header(CLIENT_AUTHORIZATION_HEADER, STR."\{TOKEN_PREFIX}\{token}")
+            .build();
+      } catch (Exception e) {
+        log.error("Failed to request access token", e);
+      }
     }
+
 }
