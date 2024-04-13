@@ -25,6 +25,7 @@ Will run the test task for all projects
 * Spring Boot v3 (Spring Framework v6)
 * Spring Cloud (Using 2023.x compatible with Spring Boot 3.2.x)
 * Micrometer tracing (Zipkin)
+* OAuth2
 * Docker Compose
   * Prometheus WIP
   * Grafana WIP
@@ -106,6 +107,20 @@ Design Patterns implemented:
 ### Common Utils library
 
 Contains common and utility classes to be used across different services.
+
+### OAuth2
+
+Client Credentials Flow is used in order to authorize requests from the API Gateway and the different microservices,
+this adds a layer of security to prevent to call the microservices directly bypassing the API gateway.
+Api Gateway it is configured as the oauth client and the microservices will be the resource servers.
+
+#### Auth0
+
+Auth0 is used in order to use OAuth as a service. An application machine-to-machine should be configured, 
+setting an API with permissions should be defined "read:lyrics", "read:users" and "write:users" and set
+those permissions as scopes in the application.
+
+[JWT Access Token example](https://jwt.io/#debugger-io?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImRraFMzV2xKNFhsSUUwXy03aXFkSSJ9.eyJpc3MiOiJodHRwczovL2Rldi1hb2N6ajhzNWI4em1yazc0LnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJlblo1Zkx0Uk1UbVZQTGhadlRhb2x6QzBuN0VFUldTY0BjbGllbnRzIiwiYXVkIjoiamF2YS1seXJpY3MtYXBpIiwiaWF0IjoxNzEyOTY4NDkyLCJleHAiOjE3MTMwNTQ4OTIsInNjb3BlIjoicmVhZDpseXJpY3MgcmVhZDp1c2VycyB3cml0ZTp1c2VycyIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyIsImF6cCI6ImVuWjVmTHRSTVRtVlBMaFp2VGFvbHpDMG43RUVSV1NjIn0.hv3tPXFPb9uHvlQsYer8HMymVV-Qlh_NBWU8WYdr7NER3T8C96nugnBhlA-MNh_zsC2JBzqk851mZVgpaZlzGl8Rq02E5n4lJ0InMVgLnM8Fc-fN2UcvUbB41iYH0sb038PUMPv_1FRojFYX8R4qj0xQHkPkej_NWcPxCHbb92ddz5hPJTyCNlQPfEkBAp1m9hBzctsErYwXPlruyxJr_NRz1nqO7HEITEnnG8EHZStUiaWKvFcaQq-yHZtogVSU8bZWJ6hiCjI9D5ZM1o-pMW31twz-eRrYOnfogmGicSxDDgPNDWccTBn7-sVbhkyOfaWCc5SKgIAC2vE1qQyGLQ&publicKey=%7B%0A%20%20%22e%22%3A%20%22AQAB%22%2C%0A%20%20%22kty%22%3A%20%22RSA%22%2C%0A%20%20%22n%22%3A%20%22qs3Hw0py7C_NaljHW-gLOt_g1Ks-rRKlU3T702aBqbk1LCOhAUOLwawd6-oWCMfRpfFvNspXZfBRyfK6UGC9-AbBp8vw8sKYUCGn3KitZOduT59rRdttM_kHTKG8wSfGuqMlXc85kqyHUbkmCepsaAy--96zypG48S4YpafitC5ga7uOBOVmNfv_lBCod6fDREeVY4fekahBiL0hlnYhYIkOK7kp6wvI9qpU-eRihsf5Egih7gNeRoyEMn4Elg6ShTDCrLBrASo5abBHKZ8O4Jcjxonz6eRX4kvzr2LT9fhrjSWUPgIDLyiZ4C0iCsACDN2IWL5E1MqGIqj9RNPESQ%22%0A%7D)
 
 ### AOP
 

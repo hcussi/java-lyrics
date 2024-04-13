@@ -5,7 +5,6 @@ import org.hernan.cussi.lyrics.apigatewayservice.config.RouterValidator;
 import org.hernan.cussi.lyrics.apigatewayservice.service.OAuthService;
 import org.hernan.cussi.lyrics.utils.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.context.annotation.Profile;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-@RefreshScope
 @Component
 @Slf4j
 @Profile("!test")
