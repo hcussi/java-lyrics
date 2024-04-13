@@ -25,7 +25,6 @@ public class AuthenticationFilter implements GatewayFilter {
     private final String TOKEN_PREFIX = "Bearer ";
     private final RouterValidator routerValidator;
     private final JwtUtil jwtUtil;
-
     private final OAuthService oAuthService;
 
     @Autowired
@@ -52,11 +51,11 @@ public class AuthenticationFilter implements GatewayFilter {
                     bearerToken = token.substring(TOKEN_PREFIX.length());
                 }
                 jwtUtil.validateToken(bearerToken);
-                this.updateRequest(exchange, bearerToken);
             } catch (Exception ex) {
                 return this.onError(exchange, HttpStatus.FORBIDDEN);
             }
         }
+        this.updateRequest(exchange);
         return chain.filter(exchange);
     }
 
@@ -74,13 +73,12 @@ public class AuthenticationFilter implements GatewayFilter {
         return !request.getHeaders().containsKey(AUTHORIZATION_HEADER);
     }
 
-    private void updateRequest(ServerWebExchange exchange, String token) {
+    private void updateRequest(ServerWebExchange exchange) {
       try {
           var accessToken = oAuthService.getOAuth2AccessToken();
 
           exchange.getRequest().mutate()
             .header(AUTHORIZATION_HEADER, STR."\{TOKEN_PREFIX}\{accessToken}")
-            .header(CLIENT_AUTHORIZATION_HEADER, STR."\{TOKEN_PREFIX}\{token}")
             .build();
       } catch (Exception e) {
         log.error("Failed to request access token", e);

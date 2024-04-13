@@ -66,6 +66,7 @@ public class LyricsApiGatewayServiceApplication {
 			/* Authentication API */
 			.route(r -> r.path("/api/authentication")
 				.filters(f -> f
+					.filter(authenticationFilter)
 					.rewritePath("/api/authentication", "/api/v1/authentication")
 					.circuitBreaker(c -> c.setName("authentication-service-circuit-breaker").setFallbackUri("forward:/fallback"))
 					.retry(config -> config.setRetries(3).setMethods(HttpMethod.POST))
