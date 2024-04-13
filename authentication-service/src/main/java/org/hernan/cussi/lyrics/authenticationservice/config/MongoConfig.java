@@ -4,6 +4,7 @@ import org.hernan.cussi.lyrics.utils.mongo.MongoOffsetDateTimeReader;
 import org.hernan.cussi.lyrics.utils.mongo.MongoOffsetDateTimeWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @Configuration
 @EnableMongoAuditing(dateTimeProviderRef = "auditingDateTimeProvider")
+@Profile("!test")
 public class MongoConfig {
 
     /**

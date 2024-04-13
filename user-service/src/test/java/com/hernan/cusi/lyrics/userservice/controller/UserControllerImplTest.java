@@ -5,18 +5,23 @@ import org.hernan.cussi.lyrics.userservice.business.UserBusiness;
 import org.hernan.cussi.lyrics.userservice.controller.UserControllerImpl;
 import org.hernan.cussi.lyrics.userservice.dto.UserDto;
 import org.hernan.cussi.lyrics.userservice.model.User;
+import org.hernan.cussi.lyrics.userservice.repository.UserRepository;
 import org.hernan.cussi.lyrics.utils.test.PaginationUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -37,8 +42,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 	webEnvironment = SpringBootTest.WebEnvironment.MOCK,
 	classes = LyricsUserServiceApplication.class
 )
+@EnableAutoConfiguration(exclude={MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @AutoConfigureMockMvc(addFilters = false)
 public class UserControllerImplTest {
+
+	@MockBean
+	private UserRepository userRepository;
+
+	@MockBean
+	private JwtDecoder jwtDecoder;
 
 	@Autowired
 	private MockMvc mockMvc;

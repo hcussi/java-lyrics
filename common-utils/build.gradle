@@ -5,7 +5,9 @@ ext {
 }
 
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-data-mongodb:$mongoVersion"
+    implementation 'org.mongodb:bson'
+    implementation 'org.springframework:spring-core'
+    implementation 'org.springframework.data:spring-data-commons'
     implementation 'io.micrometer:micrometer-tracing'
 
     implementation "io.jsonwebtoken:jjwt-api:$jjwtVersion"
