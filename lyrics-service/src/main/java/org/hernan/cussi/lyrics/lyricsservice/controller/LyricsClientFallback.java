@@ -4,6 +4,8 @@ import org.hernan.cussi.lyrics.utils.dto.ResponseDto;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -11,7 +13,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class LyricsClientFallback implements LyricsClient {
 
     @Override
-    public EntityModel<ResponseDto> getSuggest(final String suggest, final String token) {
+    public EntityModel<ResponseDto> getSuggest(Map<String, Object> headers, final String suggest, final String token) {
         var res = new ResponseDto();
 
         return EntityModel.of(
