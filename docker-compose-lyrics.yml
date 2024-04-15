@@ -74,3 +74,20 @@ services:
       - "8761:8761"
     volumes:
       - ./discovery-server/logs:/workspace/logs
+
+  api-gateway-service:
+    container_name: api-gateway-service
+    image: hernancussi/java-lyrics-api-gateway-service:latest
+    env_file:
+      - .env
+    environment:
+      - JAVA_OPTS="--enable-preview"
+      - EUREKA_SERVER=discovery-server
+      - REDIS_HOST=lyrics-redis
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./api-gateway-service/logs:/workspace/logs
+    depends_on:
+      - discovery-server
+      - redis

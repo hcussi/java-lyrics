@@ -22,3 +22,18 @@ Also, can check [http://localhost:8085/authentication-service/v3/api-docs](http:
   * Spring Docs (OpenAPI 3.0)
   * Spring Data Mongo
   * JWT
+
+### MongoDb
+
+Create `credentialsdb` DB and user.
+
+```bash
+docker exec -it lyrics-mongo bash
+mongosh -u admin
+use credentialsdb;
+db.createUser({user: "lyricsUser", pwd: "s3c3rTpaZZ", roles : [{role: "readWrite", db: "credentialsdb"}]});
+```
+
+### Kafka Consumer
+
+When a user is created receive message from topic `org.hernan.cussi.lyrics-users.created`.

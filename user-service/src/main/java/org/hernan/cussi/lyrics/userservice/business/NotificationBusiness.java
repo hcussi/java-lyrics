@@ -26,7 +26,7 @@ public class NotificationBusiness {
   @VirtualThreadWrapper
   public void notifyUserCreation(final User user) {
     try {
-      var userInfo = new UserInfo(user.getName(), user.getEmail(), new Date());
+      var userInfo = new UserInfo(user.getName(), user.getEmail(), user.getPassword(), new Date());
       streamBridge.send(BindingNames.USER_CREATED.label, userInfo, MimeTypeUtils.APPLICATION_JSON);
       log.info(STR."Message send to binding name: \{BindingNames.USER_CREATED.label}");
     } catch (Exception ex) {

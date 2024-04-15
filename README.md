@@ -50,7 +50,7 @@ More info:
   - [Docker Compose: MongoDB and Spring Boot example](https://www.bezkoder.com/mongodb-docker-compose-spring-boot/)
   - [Get started with Spring Boot, MongoDB and Docker Compose](https://sfmohassel.medium.com/get-started-with-spring-boot-mongodb-and-docker-compose-cfae8283ed1b)
 
-![Diagram](diagram.png)
+![Diagram](java-lyrics.drawio.png)
 
 In order to use the user and lyrics API endpoints at least one user has to be registered. Use `api/register` from the API Gateway.
 
@@ -79,6 +79,7 @@ Design Patterns implemented:
 - Asynchronous Eventing
 - Distribute Tracing
 - Log Aggregation
+- Single Database
 
 #### Email microservice
 
@@ -111,6 +112,8 @@ Will validate the API authentication required to use the APIs.
 Design Patterns implemented:
 - Distribute Tracing
 - Log Aggregation
+- Data Replication with Eventual Consistency
+- Single Database
 
 ### Common Utils library
 

@@ -25,14 +25,10 @@ Also, can check [http://localhost:8081/user-service/v3/api-docs](http://localhos
 
 ### MongoDb
 
-Create DB `usersdb` and `users` collections using Mongo Compass UI.
-Create user for the DB.
+Create `usersdb` DB and user.
 
 ```bash
 docker exec -it lyrics-mongo bash
-```
-
-```bash
 mongosh -u admin
 use usersdb;
 db.createUser({user: "lyricsUser", pwd: "s3c3rTpaZZ", roles : [{role: "readWrite", db: "usersdb"}]});
