@@ -11,6 +11,12 @@ Each subproject can be run independently, check `README.md` for each of those.
 ./gradlew :subproject:bootRun
 ```
 
+## Build Image
+
+```bash
+./gradlew subproject:bootBuildImage --imageName=java-lyrics-subproject:0.0.1 --createdDate now
+```
+
 ## Test Application
 
 Will run the test task for all projects
@@ -50,7 +56,7 @@ In order to use the user and lyrics API endpoints at least one user has to be re
 
 #### Discovery Server
 
-Eureka server that allow microservices to self discover, basic auth set for connection. Check the particular `README.md` for more info.
+Eureka server that allows microservices to self discover, basic auth set for connection. Check the particular `README.md` for more info.
 Design Patterns implemented:
 - Service Discovery
 
@@ -64,6 +70,7 @@ Design Patterns implemented:
 - Retry
 - Distribute Tracing
 - Log Aggregation
+- Load Balancing
 
 #### User microservice
 
@@ -87,7 +94,8 @@ Will provide the external connection with the Deezer API, wraps the REST communi
 Design Patterns implemented:
 - Distribute Tracing
 - Log Aggregation
-- 
+- Edge
+
 #### Lyrics microservice
 
 Will connect with the lyrics client microservice and wraps the communication implementation fallback mechanism and circuit breaker pattern.
@@ -121,6 +129,11 @@ setting an API with permissions should be defined "read:lyrics", "read:users" an
 those permissions as scopes in the application.
 
 [JWT Access Token example](https://jwt.io/#debugger-io?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImRraFMzV2xKNFhsSUUwXy03aXFkSSJ9.eyJpc3MiOiJodHRwczovL2Rldi1hb2N6ajhzNWI4em1yazc0LnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJlblo1Zkx0Uk1UbVZQTGhadlRhb2x6QzBuN0VFUldTY0BjbGllbnRzIiwiYXVkIjoiamF2YS1seXJpY3MtYXBpIiwiaWF0IjoxNzEyOTY4NDkyLCJleHAiOjE3MTMwNTQ4OTIsInNjb3BlIjoicmVhZDpseXJpY3MgcmVhZDp1c2VycyB3cml0ZTp1c2VycyIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyIsImF6cCI6ImVuWjVmTHRSTVRtVlBMaFp2VGFvbHpDMG43RUVSV1NjIn0.hv3tPXFPb9uHvlQsYer8HMymVV-Qlh_NBWU8WYdr7NER3T8C96nugnBhlA-MNh_zsC2JBzqk851mZVgpaZlzGl8Rq02E5n4lJ0InMVgLnM8Fc-fN2UcvUbB41iYH0sb038PUMPv_1FRojFYX8R4qj0xQHkPkej_NWcPxCHbb92ddz5hPJTyCNlQPfEkBAp1m9hBzctsErYwXPlruyxJr_NRz1nqO7HEITEnnG8EHZStUiaWKvFcaQq-yHZtogVSU8bZWJ6hiCjI9D5ZM1o-pMW31twz-eRrYOnfogmGicSxDDgPNDWccTBn7-sVbhkyOfaWCc5SKgIAC2vE1qQyGLQ&publicKey=%7B%0A%20%20%22e%22%3A%20%22AQAB%22%2C%0A%20%20%22kty%22%3A%20%22RSA%22%2C%0A%20%20%22n%22%3A%20%22qs3Hw0py7C_NaljHW-gLOt_g1Ks-rRKlU3T702aBqbk1LCOhAUOLwawd6-oWCMfRpfFvNspXZfBRyfK6UGC9-AbBp8vw8sKYUCGn3KitZOduT59rRdttM_kHTKG8wSfGuqMlXc85kqyHUbkmCepsaAy--96zypG48S4YpafitC5ga7uOBOVmNfv_lBCod6fDREeVY4fekahBiL0hlnYhYIkOK7kp6wvI9qpU-eRihsf5Egih7gNeRoyEMn4Elg6ShTDCrLBrASo5abBHKZ8O4Jcjxonz6eRX4kvzr2LT9fhrjSWUPgIDLyiZ4C0iCsACDN2IWL5E1MqGIqj9RNPESQ%22%0A%7D)
+
+More info:
+- [Tackling the OAuth2 Client component model in Spring Security](https://spring.io/blog/2023/08/22/tackling-the-oauth2-client-component-model-in-spring-security)
+- [Spring Security OAuth2 Client Credentials Grant](https://dev.to/relive27/spring-security-oauth2-client-credentials-grant-fj5)
+- [How to Use Client Credentials Flow with Spring Security](https://developer.okta.com/blog/2021/05/05/client-credentials-spring-security)
 
 ### AOP
 

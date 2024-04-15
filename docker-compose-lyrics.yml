@@ -60,3 +60,17 @@ services:
       - JAVA_OPTS=-Xms128m -Xmx1024m -XX:+ExitOnOutOfMemoryError
     ports:
       - "9411:9411"
+    depends_on:
+      - discovery-server
+
+  discovery-server:
+    container_name: discovery-server
+    image: hernancussi/java-lyrics-discovery-server:latest
+    env_file:
+      - .env
+    environment:
+      - JAVA_OPTS="--enable-preview"
+    ports:
+      - "8761:8761"
+    volumes:
+      - ./discovery-server/logs:/workspace/logs
