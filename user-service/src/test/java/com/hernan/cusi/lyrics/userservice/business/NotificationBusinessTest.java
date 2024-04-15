@@ -40,7 +40,7 @@ public class NotificationBusinessTest {
   @Test
   public void notifyUser_ok() {
     notificationBusiness.notifyUserCreation(
-      User.builder().name("test").email("test@gmail.com").build()
+      User.builder().name("test").email("test@gmail.com").password("s3cret").build()
     );
 
     Message<byte[]> result = outputDestination.receive(100, BindingNames.USER_CREATED.label);

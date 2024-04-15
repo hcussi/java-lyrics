@@ -26,12 +26,33 @@ public class NotificationBusiness {
   @VirtualThreadWrapper
   public void notifyUserCreation(final User user) {
     try {
-      var userInfo = new UserInfo(user.getName(), user.getEmail(), user.getPassword(), new Date());
+      var userInfo = new UserInfo(user.getName(), user.getEmail(), user.getEmail(), user.getPassword(), new Date());
       streamBridge.send(BindingNames.USER_CREATED.label, userInfo, MimeTypeUtils.APPLICATION_JSON);
       log.info(STR."Message send to binding name: \{BindingNames.USER_CREATED.label}");
     } catch (Exception ex) {
       log.error(STR."Failed to send message to: \{BindingNames.USER_CREATED.label}", ex);
     }
+  }
 
+  @VirtualThreadWrapper
+  public void notifyUserModification(final User user, final String originalEmail) {
+    try {
+      var userInfo = new UserInfo(user.getName(), user.getEmail(), originalEmail, user.getPassword(), new Date());
+      streamBridge.send(BindingNames.USER_MODIFIED.label, userInfo, MimeTypeUtils.APPLICATION_JSON);
+      log.info(STR."Message send to binding name: \{BindingNames.USER_MODIFIED.label}");
+    } catch (Exception ex) {
+      log.error(STR."Failed to send message to: \{BindingNames.USER_MODIFIED.label}", ex);
+    }
+  }
+
+  @VirtualThreadWrapper
+  public void notifyUserDeletion(final User user) {
+    try {
+      var userInfo = new UserInfo(user.getName(), user.getEmail(), user.getEmail(), user.getPassword(), new Date());
+      streamBridge.send(BindingNames.USER_DELETED.label, userInfo, MimeTypeUtils.APPLICATION_JSON);
+      log.info(STR."Message send to binding name: \{BindingNames.USER_DELETED.label}");
+    } catch (Exception ex) {
+      log.error(STR."Failed to send message to: \{BindingNames.USER_DELETED.label}", ex);
+    }
   }
 }

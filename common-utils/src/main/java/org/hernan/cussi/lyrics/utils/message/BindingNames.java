@@ -5,7 +5,11 @@ import java.util.Map;
 
 public enum BindingNames {
 
-   USER_CREATED("userCreated-out-0");
+   USER_CREATED("userCreated-out-0"),
+
+  USER_MODIFIED("userModified-out-0"),
+
+  USER_DELETED("userDeleted-out-0");
 
   private static final Map<String, BindingNames> BY_LABEL = new HashMap<>();
 

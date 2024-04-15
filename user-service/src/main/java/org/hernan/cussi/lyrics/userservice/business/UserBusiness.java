@@ -38,9 +38,11 @@ public class UserBusiness {
       throw new EmailAlreadyUsedException(STR."Email already in use \{user.getEmail()}");
     }
 
+    var userDb = this.userRepository.save(user);
+
     this.notificationBusiness.notifyUserCreation(user);
 
-    return this.userRepository.save(user);
+    return userDb;
   }
 
   public User updateUser(String userId, final UserDto userDto) throws UserNotFoundException {
@@ -51,16 +53,25 @@ public class UserBusiness {
       throw new EmailAlreadyUsedException(STR."Email already in use \{user.getEmail()}");
     }
 
+    var originalEmail = user.getEmail();
     user.setName(userDto.getName());
     user.setEmail(userDto.getEmail());
+    user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
     log.info("Updating new user {}", user);
-    return this.userRepository.save(user);
+
+    var userDb = this.userRepository.save(user);
+
+    this.notificationBusiness.notifyUserModification(user, originalEmail);
+
+    return userDb;
   }
 
   public void deleteUser(final String userId) throws UserNotFoundException {
     var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     log.info("Deleting user {}", user);
     this.userRepository.delete(user);
+    this.notificationBusiness.notifyUserDeletion(user);
   }
 
   public User getUser(final String userId) throws UserNotFoundException {

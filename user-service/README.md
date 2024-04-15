@@ -36,7 +36,10 @@ db.createUser({user: "lyricsUser", pwd: "s3c3rTpaZZ", roles : [{role: "readWrite
 
 ### Kafka Publisher
 
-When a user is created send message to topic `org.hernan.cussi.lyrics-users.created`.
+When a user is created, modified or deleted send message to topic: 
+- `org.hernan.cussi.lyrics-users.created`
+- `org.hernan.cussi.lyrics-users.modified`
+- `org.hernan.cussi.lyrics-users.deleted`
 
 More info:
 - [Implementing a Kafka Producer and Consumer using Spring Cloud Stream](https://medium.com/javarevisited/implementing-a-kafka-producer-and-consumer-using-spring-cloud-stream-d4b9a6a9eab1)

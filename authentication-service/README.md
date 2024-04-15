@@ -36,4 +36,7 @@ db.createUser({user: "lyricsUser", pwd: "s3c3rTpaZZ", roles : [{role: "readWrite
 
 ### Kafka Consumer
 
-When a user is created receive message from topic `org.hernan.cussi.lyrics-users.created`.
+When a user is created, modified or deleted receive message from topic:
+- `org.hernan.cussi.lyrics-users.created`
+- `org.hernan.cussi.lyrics-users.modified`
+- `org.hernan.cussi.lyrics-users.deleted`
